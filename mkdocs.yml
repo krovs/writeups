@@ -73,3 +73,4 @@ plugins:
   - blog:
       blog_dir: .
       post_excerpt: required
+      post_url_format: "{slug}"
