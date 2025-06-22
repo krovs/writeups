@@ -76,3 +76,8 @@ plugins:
       post_url_format: "{slug}"
   - rss:
       match_path: "posts/.*"
+      date_from_meta:
+        as_creation: "date"
+      categories_from_meta:
+        - categories
+        - tags
