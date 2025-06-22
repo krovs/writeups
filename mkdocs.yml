@@ -81,3 +81,4 @@ plugins:
       categories:
         - categories
         - tags
+        - verbose: true
