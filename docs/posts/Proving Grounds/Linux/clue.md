@@ -1,12 +1,12 @@
 ---
-title: "Clue"
-date: 2025-06-20
+title: Clue
+date: 2025-03-24
 categories:
-  - Proving Grounds
-  - Linux
+- Proving Grounds
+- Linux
 tags:
-  - Proving Grounds
-  - Linux
+- Proving Grounds
+- Linux
 ---
 
 # Clue 🔺

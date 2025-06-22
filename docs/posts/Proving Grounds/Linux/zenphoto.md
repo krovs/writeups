@@ -1,12 +1,12 @@
 ---
-title: "Zenphoto"
-date: 2025-06-20
+title: Zenphoto
+date: 2025-03-21
 categories:
-  - Proving Grounds
-  - Linux
+- Proving Grounds
+- Linux
 tags:
-  - Proving Grounds
-  - Linux
+- Proving Grounds
+- Linux
 ---
 
 # Zenphoto 🔸

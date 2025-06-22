@@ -1,12 +1,12 @@
 ---
-title: "Mzeeav"
-date: 2025-06-20
+title: Mzeeav
+date: 2025-04-09
 categories:
-  - Proving Grounds
-  - Linux
+- Proving Grounds
+- Linux
 tags:
-  - Proving Grounds
-  - Linux
+- Proving Grounds
+- Linux
 ---
 
 # Mzeeav 🔸

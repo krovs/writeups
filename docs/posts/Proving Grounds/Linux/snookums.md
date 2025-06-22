@@ -1,12 +1,12 @@
 ---
-title: "Snookums"
-date: 2025-06-20
+title: Snookums
+date: 2025-03-18
 categories:
-  - Proving Grounds
-  - Linux
+- Proving Grounds
+- Linux
 tags:
-  - Proving Grounds
-  - Linux
+- Proving Grounds
+- Linux
 ---
 
 # Snookums 🔸

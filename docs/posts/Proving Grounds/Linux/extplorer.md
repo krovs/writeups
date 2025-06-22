@@ -1,12 +1,12 @@
 ---
-title: "Extplorer"
-date: 2025-06-20
+title: Extplorer
+date: 2025-03-25
 categories:
-  - Proving Grounds
-  - Linux
+- Proving Grounds
+- Linux
 tags:
-  - Proving Grounds
-  - Linux
+- Proving Grounds
+- Linux
 ---
 
 # Extplorer 🔸

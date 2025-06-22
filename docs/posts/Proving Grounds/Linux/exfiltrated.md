@@ -1,12 +1,12 @@
 ---
-title: "Exfiltrated"
-date: 2025-06-20
+title: Exfiltrated
+date: 2025-04-03
 categories:
-  - Proving Grounds
-  - Linux
+- Proving Grounds
+- Linux
 tags:
-  - Proving Grounds
-  - Linux
+- Proving Grounds
+- Linux
 ---
 
 # Exfiltrated 🔹

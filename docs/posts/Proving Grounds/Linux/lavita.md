@@ -1,12 +1,12 @@
 ---
-title: "Lavita"
-date: 2025-06-20
+title: Lavita
+date: 2025-04-10
 categories:
-  - Proving Grounds
-  - Linux
+- Proving Grounds
+- Linux
 tags:
-  - Proving Grounds
-  - Linux
+- Proving Grounds
+- Linux
 ---
 
 # Lavita 🔸

@@ -1,6 +1,6 @@
 ---
 title: "Hokkaido"
-date: 2025-06-20
+date: 2025-04-27
 categories:
   - Proving Grounds
   - Active Directory

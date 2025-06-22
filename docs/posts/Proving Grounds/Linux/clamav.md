@@ -1,12 +1,12 @@
 ---
-title: "Clamav"
-date: 2025-06-20
+title: Clamav
+date: 2025-03-13
 categories:
-  - Proving Grounds
-  - Linux
+- Proving Grounds
+- Linux
 tags:
-  - Proving Grounds
-  - Linux
+- Proving Grounds
+- Linux
 ---
 
 # ClamAV 🔹

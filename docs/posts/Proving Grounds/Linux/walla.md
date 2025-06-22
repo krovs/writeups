@@ -1,12 +1,12 @@
 ---
-title: "Walla"
-date: 2025-06-20
+title: Walla
+date: 2025-03-27
 categories:
-  - Proving Grounds
-  - Linux
+- Proving Grounds
+- Linux
 tags:
-  - Proving Grounds
-  - Linux
+- Proving Grounds
+- Linux
 ---
 
 # Walla 🔸

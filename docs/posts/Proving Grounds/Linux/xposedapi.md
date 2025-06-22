@@ -1,12 +1,12 @@
 ---
-title: "Xposedapi"
-date: 2025-06-20
+title: Xposedapi
+date: 2025-04-14
 categories:
-  - Proving Grounds
-  - Linux
+- Proving Grounds
+- Linux
 tags:
-  - Proving Grounds
-  - Linux
+- Proving Grounds
+- Linux
 ---
 
 # Xposedapi 🔸

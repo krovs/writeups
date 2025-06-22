@@ -1,12 +1,12 @@
 ---
-title: "Sorcerer"
-date: 2025-06-20
+title: Sorcerer
+date: 2025-03-30
 categories:
-  - Proving Grounds
-  - Linux
+- Proving Grounds
+- Linux
 tags:
-  - Proving Grounds
-  - Linux
+- Proving Grounds
+- Linux
 ---
 
 # Sorcerer 🔸

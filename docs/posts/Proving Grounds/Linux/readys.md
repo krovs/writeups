@@ -1,12 +1,12 @@
 ---
-title: "Readys"
-date: 2025-06-20
+title: Readys
+date: 2025-04-01
 categories:
-  - Proving Grounds
-  - Linux
+- Proving Grounds
+- Linux
 tags:
-  - Proving Grounds
-  - Linux
+- Proving Grounds
+- Linux
 ---
 
 # Readys 🔸

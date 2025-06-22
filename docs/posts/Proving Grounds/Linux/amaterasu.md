@@ -1,12 +1,12 @@
 ---
-title: "Amaterasu"
-date: 2025-06-20
+title: Amaterasu
+date: 2025-03-02
 categories:
-  - Proving Grounds
-  - Linux
+- Proving Grounds
+- Linux
 tags:
-  - Proving Grounds
-  - Linux
+- Proving Grounds
+- Linux
 ---
 
 # Amaterasu 🔹

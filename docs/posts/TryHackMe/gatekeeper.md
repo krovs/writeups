@@ -1,6 +1,6 @@
 ---
 title: "Gatekeeper"
-date: 2025-06-20
+date: 2024-11-17
 categories:
   - TryHackMe
   - Windows

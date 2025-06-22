@@ -1,12 +1,12 @@
 ---
-title: "Wombo"
-date: 2025-06-20
+title: Wombo
+date: 2025-04-04
 categories:
-  - Proving Grounds
-  - Linux
+- Proving Grounds
+- Linux
 tags:
-  - Proving Grounds
-  - Linux
+- Proving Grounds
+- Linux
 ---
 
 # Wombo 🔹

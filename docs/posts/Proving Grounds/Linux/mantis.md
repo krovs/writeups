@@ -1,12 +1,12 @@
 ---
-title: "Mantis"
-date: 2025-06-20
+title: Mantis
+date: 2025-04-24
 categories:
-  - Proving Grounds
-  - Linux
+- Proving Grounds
+- Linux
 tags:
-  - Proving Grounds
-  - Linux
+- Proving Grounds
+- Linux
 ---
 
 # Mantis 🔸

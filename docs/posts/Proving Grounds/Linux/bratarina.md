@@ -1,12 +1,12 @@
 ---
-title: "Bratarina"
-date: 2025-06-20
+title: Bratarina
+date: 2025-03-18
 categories:
-  - Proving Grounds
-  - Linux
+- Proving Grounds
+- Linux
 tags:
-  - Proving Grounds
-  - Linux
+- Proving Grounds
+- Linux
 ---
 
 # Bratarina 🔹

@@ -1,12 +1,12 @@
 ---
-title: "Nukem"
-date: 2025-06-20
+title: Nukem
+date: 2025-03-22
 categories:
-  - Proving Grounds
-  - Linux
+- Proving Grounds
+- Linux
 tags:
-  - Proving Grounds
-  - Linux
+- Proving Grounds
+- Linux
 ---
 
 # Nukem 🔸

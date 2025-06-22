@@ -1,12 +1,12 @@
 ---
-title: "Nibbles"
-date: 2025-06-20
+title: Nibbles
+date: 2025-03-19
 categories:
-  - Proving Grounds
-  - Linux
+- Proving Grounds
+- Linux
 tags:
-  - Proving Grounds
-  - Linux
+- Proving Grounds
+- Linux
 ---
 
 # Nibbles 🔸
