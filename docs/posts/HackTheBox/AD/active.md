@@ -7,6 +7,7 @@ categories:
 tags:
   - HackTheBox
   - Active Directory
+webtag: HTB
 ---
 
 # Active
