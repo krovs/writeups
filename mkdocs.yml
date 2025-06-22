@@ -81,5 +81,3 @@ plugins:
       categories:
         - categories
         - tags
-      item_custom_elements:
-        - webtag: webtag
