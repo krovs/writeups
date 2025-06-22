@@ -1,12 +1,12 @@
 ---
-title: "Slort"
-date: 2025-06-20
+title: Slort
+date: 2025-04-18
 categories:
-  - Proving Grounds
-  - Windows
+- Proving Grounds
+- Windows
 tags:
-  - Proving Grounds
-  - Windows
+- Proving Grounds
+- Windows
 ---
 
 

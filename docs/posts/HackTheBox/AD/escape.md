@@ -1,6 +1,6 @@
 ---
 title: "Escape"
-date: 2025-06-20
+date: 2025-05-05
 categories:
   - HackTheBox
   - Active Directory

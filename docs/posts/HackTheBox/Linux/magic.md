@@ -1,6 +1,6 @@
 ---
 title: "Magic"
-date: 2025-06-20
+date: 2025-05-19
 categories:
   - HackTheBox
   - Linux

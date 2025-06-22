@@ -1,6 +1,6 @@
 ---
 title: "Nineveh"
-date: 2025-06-20
+date: 2025-06-11
 categories:
   - HackTheBox
   - Linux

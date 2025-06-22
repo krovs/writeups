@@ -1,6 +1,6 @@
 ---
 title: "Artic"
-date: 2025-06-20
+date: 2025-06-08
 categories:
   - HackTheBox
   - Windows

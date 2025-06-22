@@ -1,6 +1,6 @@
 ---
 title: "Administrator"
-date: 2025-06-20
+date: 2025-06-14
 categories:
   - HackTheBox
   - Active Directory

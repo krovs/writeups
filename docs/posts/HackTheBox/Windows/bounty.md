@@ -1,6 +1,6 @@
 ---
 title: "Bounty"
-date: 2025-06-20
+date: 2025-06-09
 categories:
   - HackTheBox
   - Windows

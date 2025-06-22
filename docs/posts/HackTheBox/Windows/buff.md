@@ -1,6 +1,6 @@
 ---
 title: "Buff"
-date: 2025-06-20
+date: 2025-06-05
 categories:
   - HackTheBox
   - Windows

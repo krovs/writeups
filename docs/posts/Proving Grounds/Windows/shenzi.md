@@ -1,12 +1,12 @@
 ---
-title: "Shenzi"
-date: 2025-06-20
+title: Shenzi
+date: 2025-04-11
 categories:
-  - Proving Grounds
-  - Windows
+- Proving Grounds
+- Windows
 tags:
-  - Proving Grounds
-  - Windows
+- Proving Grounds
+- Windows
 ---
 
 

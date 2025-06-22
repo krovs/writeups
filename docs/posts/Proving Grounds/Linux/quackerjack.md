@@ -1,6 +1,6 @@
 ---
 title: Quackerjack
-date: '202'
+date: 2025-04-04
 categories:
 - Proving Grounds
 - Linux

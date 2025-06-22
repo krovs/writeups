@@ -1,12 +1,12 @@
 ---
-title: "Algernon"
-date: 2025-06-20
+title: Algernon
+date: 2025-03-24
 categories:
-  - Proving Grounds
-  - Windows
+- Proving Grounds
+- Windows
 tags:
-  - Proving Grounds
-  - Windows
+- Proving Grounds
+- Windows
 ---
 
 

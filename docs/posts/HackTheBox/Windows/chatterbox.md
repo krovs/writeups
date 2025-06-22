@@ -1,6 +1,6 @@
 ---
 title: "Chatterbox"
-date: 2025-06-20
+date: 2025-06-13
 categories:
   - HackTheBox
   - Windows

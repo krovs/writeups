@@ -1,12 +1,12 @@
 ---
-title: "Internal"
-date: 2025-06-20
+title: Internal
+date: 2025-03-19
 categories:
-  - Proving Grounds
-  - Windows
+- Proving Grounds
+- Windows
 tags:
-  - Proving Grounds
-  - Windows
+- Proving Grounds
+- Windows
 ---
 
 

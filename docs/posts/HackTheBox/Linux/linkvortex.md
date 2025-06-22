@@ -1,6 +1,6 @@
 ---
 title: "Linkvortex"
-date: 2025-06-20
+date: 2025-05-06
 categories:
   - HackTheBox
   - Linux
@@ -111,7 +111,7 @@ Changes to be committed:
         modified:   ghost/core/test/regression/api/admin/authentication.test.js
 ```
 
-```bash
+```shell
 FROM ghost:5.58.0
 
 # Copy the config

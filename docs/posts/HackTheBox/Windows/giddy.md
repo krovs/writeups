@@ -1,6 +1,6 @@
 ---
 title: "Giddy"
-date: 2025-06-20
+date: 2025-06-10
 categories:
   - HackTheBox
   - Windows

