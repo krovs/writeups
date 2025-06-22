@@ -1,9 +1,9 @@
-site_name: OSCP/eCPPTv3 Writeups
-site_description: My study writeups for the OSCP/eCPPTv3 exams
-site_url: https://krovs.github.io/oscp-writeups
+site_name: Krovs' Writeups
+site_description: Writeups for infosec and dev stuff that I'm doing.
+site_url: https://krovs.github.io/writeups
 
-repo_url: https://github.com/krovs/oscp-writeups 
-      
+repo_url: https://github.com/krovs/writeups
+
 theme:
   name: material
   icon:

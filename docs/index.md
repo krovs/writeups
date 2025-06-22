@@ -1,4 +1,4 @@
-# 🛡️ OSCP & eCPPTv3 Prep Writeups
+# 🦩 Krovs' Writeups
 
 <div align="center">
     <img src=assets/main.png>
