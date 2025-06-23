@@ -13,6 +13,8 @@ tags:
 
 ![](../assets/Pasted%20image%2020250604002453.png)
 
+<!-- more -->
+
 ## Enumeration
 
 ```shell
